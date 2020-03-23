@@ -87,7 +87,7 @@ export default{
   methods: {
     checkLogin() {
       if(this.input.username != "" && this.input.password != "") {
-            axios.get('http://localhost/ATC/API/phprest/sessions/', {
+            axios.get('https://langaj.chronicstone.online/sessions/', {
               params: {
                   'request':1,
                   'username':this.input.username,
