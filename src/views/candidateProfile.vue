@@ -149,6 +149,11 @@
 import axios from "axios";
 
 export default {
+    beforeCreate: function () {
+        if(!this.$session.exists()) {
+            this.$router.push('/pages/login')
+        }
+    },
     data() {
         return {
             userData: [],
