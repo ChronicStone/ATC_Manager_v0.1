@@ -16,6 +16,7 @@
             Tests list
             <vs-button class="ml-2" size="small" color="primary" type="border" @click="addTestTaker">Add test taker</vs-button>
           </h3>
+       
 
           <!-- ITEMS PER PAGE -->
           <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler">
@@ -65,7 +66,7 @@
 
         <template slot-scope="{data}">
           <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-            <vs-td :data="data[indextr].name">
+            <vs-td :data="data[indextr].name" @click="RedirectUserdata([indextr.id)">
               {{data[indextr].first_name}}
               {{data[indextr].name}}
             </vs-td>
@@ -99,9 +100,9 @@
   </div>
 </template>
 
-<script>
+<script >
 
-import axios from "axios";
+  import axios from "axios";
 import VxBreadcrumb from "@/layouts/components/VxBreadcrumb";
 
 
@@ -109,69 +110,73 @@ export default {
   components: {
     VxBreadcrumb
   },
-  data:()=>({
-  isMounted: false,
-	popupAddTestTaker: false,
-	show:false,
-	nbItems: 5,
-	nbRowList:[
-		{text:'5',value:5},
-		{text:'20',value:20},
-		{text:'50',value:50},
-		{text:'100',value:100},
+  data: () => ({
+    isMounted: false,
+    popupAddTestTaker: false,
+    show: false,
+    nbItems: 5,
+    nbRowList: [
+      { text: '5', value: 5 },
+      { text: '20', value: 20 },
+      { text: '50', value: 50 },
+      { text: '100', value: 100 },
 	],
-	selected:[],
-  testQueries:[]
+    selected: [],
+    testQueries: []
   }),
-  beforeCreate: function () {
-        if(!this.$session.exists()) {
-            this.$router.push('/pages/login')
-        }
+  beforeCreate: function() {
+    if (!this.$session.exists()) {
+      this.$router.push('/pages/login')
+    }
   },
-	mounted () {
-		axios
-			.get('https://langaj.chronicstone.online/tests/')
-			.then(response => (this.testQueries = response.data.data))
-		this.isMounted = true
+  mounted() {
+    axios
+      .get('https://langaj.chronicstone.online/tests/')
+      .then(response => (this.testQueries = response.data.data))
+    this.isMounted = true
   },
   computed: {
-    currentPage () {
+    currentPage() {
       if (this.isMounted) {
         return this.$refs.table.currentx
       }
       return 0
     },
-    queries () {
+    queries() {
       return this.testQueries
     },
-    queriedItems () {
+    queriedItems() {
       return this.$refs.table ? this.$refs.table.queriedResults.length : this.testQueries.length
     }
   },
-	methods: {
-		addTestTaker() {
-			this.$router.push('/addTestTaker')
+  methods: {
+    addTestTaker() {
+      this.$router.push('/addTestTaker')
     },
-    getOrderStatusColor (status) {
-      if (status === 'Started')   return '#5BB7EB'
+    getOrderStatusColor(status) {
+      if (status === 'Started') return '#5BB7EB'
       if (status === 'Created') return '#FF7D6B'
       if (status === 'Assigned') return '#EBBD38'
       if (status === 'Done') return 'success'
-      if (status === 'Pending')  return '#BCC4C4'
+      if (status === 'Pending') return '#BCC4C4'
       return 'danger'
     },
-	}
+    RedirectUser(id) {
+      this.$router.push('/test-taker/{id}')
+    }
+  }
 }
 </script>
 
-<style scoped>
-.pdfdownload {
-	display: flex;
-	justify-content: space-around;
-	float:left;
-}
+<
+style scoped >
+  .pdfdownload {
+    display: flex;
+    justify - content: space - around;
+    float: left;
+  }
 
-.bg-custom {
-  background-color: rgb(38, 44, 71);
-}
+  .bg - custom {
+    background - color: rgb(38, 44, 71);
+  }
 </style>
