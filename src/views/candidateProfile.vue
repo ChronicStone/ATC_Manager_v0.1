@@ -52,7 +52,7 @@
 
             <div class="vx-col w-full flex" id="account-manage-buttons">
                 <vs-button icon-pack="feather" icon="icon-edit" class="mr-4" :to="{name: 'test-taker-edit', params: { userId: $route.params.id }}">Edit</vs-button>
-                <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="confirmDeleteRecord">Delete</vs-button>
+                <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash">Delete</vs-button>
             </div>
 
             </div>
@@ -132,10 +132,19 @@
                 <vs-button radius color="success" type="filled" icon-pack="feather" @click.prevent="dispNewAssess()" icon="icon-plus"></vs-button>
             </div>
             <vs-divider/>
-            <vs-tabs> 
-                <vs-tab v-for="(assessment, id) in userAssessments" :key="id" :label="assessment.name">
+            <vs-tabs v-if="this.isMounted === true && userAssessments.length > 0" > 
+                <vs-tab v-for="(assess, id) in userAssessments" v-bind:key="id" :label="assess.assessment_name">
                     <div class="tab-text mt-4">
-                        <span>{{assessment.content}}</span>
+                        <span>
+                            <ul>
+                                <li>
+                                    <p class="text-primary">Key token : </p>{{assess.key_token}}
+                                </li>                                
+                                <li>
+                                    <p class="text-primary">Candidate mail : </p>{{assess.email}}
+                                </li>
+                            </ul>
+                        </span>
                     </div>
                 </vs-tab>
             </vs-tabs>
@@ -156,24 +165,24 @@ export default {
     },
     data() {
         return {
+            isMounted:false,
             userData: [],
-            userAssessments: [
-                {'id' : 1, 'name' : 'Assessment1', 'content' : 'This is assessment 1'},
-                {'id' : 2, 'name' : 'Assessment2', 'content' : 'This is assessment 2'},
-                {'id' : 3, 'name' : 'Assessment3', 'content' : 'This is assessment 3'}
-            ]
+            userAssessments:[]
         }
     },
-    mounted() {
+    beforeMount() {
         console.log(this.$route.params.id)
         axios.get('https://langaj.chronicstone.online/test-taker/get/index.php?id=' + this.$route.params.id)
              .then(response => (this.userData = response.data.data[0]))
+
+        axios.get('http://localhost/atc/API/phprest/test-assessment/get/index.php?id=' + this.$route.params.id + '&session_id=' + this.$session.get('session_id'))
+             .then(response => (this.userAssessments = response.data.data, this.isMounted = true))
     },
     methods: {
-        dispNewAssess() {
+        dispNewAssess() { 
             var idAsess = this.userAssessments.length + 1
             var newAssess = {'id' : idAsess, 'name' : 'Assessment' + idAsess, 'content' : 'This is assessment ' + idAsess}
-            this.userAssessments.push(newAssess)
+            this.userAssessments.push(newAssess) 
         }
     }
 }
