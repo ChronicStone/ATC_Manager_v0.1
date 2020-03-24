@@ -25,6 +25,6 @@
   </svg>-->
 
   <div>
-     <img src="@/assets/images/logo/logo.png"/>
+     <img width="100px" height="40px" src="@/assets/images/logo/logo.png"/>
   </div>
 </template>
