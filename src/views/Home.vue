@@ -13,7 +13,6 @@
         :data=  "testQueries">
         <template slot="header">
           <h3>
-            Tests list
             <vs-button class="ml-2" size="small" color="primary" type="border" @click="addTestTaker">Add test taker</vs-button>
           </h3>
 
