@@ -123,7 +123,7 @@
             </div>
         </div>
 
-        <vx-card>
+        <vx-card class="overflow-auto" style="overflow:scroll;">
             <div class="flex justify-between">
                 <div class="flex">
                     <feather-icon svgClasses="w-6 h-6" icon="BookOpenIcon" class="mr-2" />
@@ -132,9 +132,9 @@
                 <vs-button radius color="success" type="filled" icon-pack="feather" @click.prevent="dispNewAssess()" icon="icon-plus"></vs-button>
             </div>
             <vs-divider/>
-            <vs-tabs v-if="this.isMounted === true && userAssessments.length > 0" > 
-                <vs-tab v-for="(assess, id) in userAssessments" v-bind:key="id" :label="assess.assessment_name">
-                    <div class="tab-text mt-4">
+            <vs-tabs :color="tabColor" v-if="this.isMounted === true && userAssessments.length > 0" > 
+                <vs-tab v-for="(assess, id) in userAssessments" v-bind:key="id" :label="assess.assessment_name" @click="labelAssess(assess.state)" @onmouseover="labelAssess(assess.state)" >
+                    <div class="tab-text mt-4" v-if="assess.state === 'saved'">
                         <span>
                             <ul>
                                 <li>
@@ -146,6 +146,30 @@
                             </ul>
                         </span>
                     </div>
+                    <div class="tab-text mt-4" v-if="assess.state === 'created'">
+                        <div class="mt-4 ml-2">
+                            <div class="vx-row">
+                                <div class="vx-col sm:w-1/3 w-full mb-2">
+                                    <label><feather-icon svgClasses="w-4 h-3" icon="ChevronRightIcon" />Test version</label>
+                                    <v-select class="mt-2" v-model="selected" placeholder="Select test" :options="options" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+                                </div>
+                                <div class="vx-col sm:w-1/3 w-full mb-2">
+                                    <label><feather-icon svgClasses="w-4 h-3" icon="ChevronRightIcon" />Expected due date</label>
+                                    <datepicker class="mt-2" placeholder="Select Date" v-model="date"></datepicker>
+                                </div>
+                                <div class="vx-col sm:w-1/3 w-full mb-2">
+                                    <label><feather-icon svgClasses="w-4 h-3" icon="ChevronRightIcon" />Batch session</label>
+                                    <v-select class="mt-2" v-model="selected" placeholder="Select batch" :options="options" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+                                </div>
+                            </div>
+                            <div class="vx-row">
+                                <div class="vx-col sm:w-full w-full ml-auto mt-10">
+                                    <vs-button class="mr-3 mb-2">Submit</vs-button>
+                                    <vs-button color="warning" type="border" class="mb-2" @click="input1 = input2 = input3 = input4 = input4 = ''; check1 = false;">Reset</vs-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </vs-tab>
             </vs-tabs>
         </vx-card>
@@ -156,8 +180,15 @@
 <script>
 
 import axios from "axios";
+import vSelect from 'vue-select'
+import Datepicker from 'vuejs-datepicker';
+
 
 export default {
+    components: {
+        'v-select': vSelect,
+        Datepicker
+    },
     beforeCreate: function () {
         if(!this.$session.exists()) {
             this.$router.push('/pages/login')
@@ -166,8 +197,17 @@ export default {
     data() {
         return {
             isMounted:false,
+            ATCSettings:[],
             userData: [],
-            userAssessments:[]
+            userAssessments:[],
+            options: [
+                    {id: 1, label: 'foo'},
+                    {id: 2, label: 'bar'},
+                    {id: 3, label: 'baz'},
+                    {id: 4, label: 'baz'},
+                ],
+            selected: '',
+            tabColor:'success'
         }
     },
     beforeMount() {
@@ -175,15 +215,30 @@ export default {
         axios.get('https://langaj.chronicstone.online/test-taker/get/index.php?id=' + this.$route.params.id)
              .then(response => (this.userData = response.data.data[0]))
 
-        axios.get('http://localhost/atc/API/phprest/test-assessment/get/index.php?id=' + this.$route.params.id + '&session_id=' + this.$session.get('session_id'))
+        axios.get('https://langaj.chronicstone.online/test-assessment/get/index.php?id=' + this.$route.params.id + '&session_id=' + this.$session.get('session_id'))
              .then(response => (this.userAssessments = response.data.data, this.isMounted = true))
+
+        axios.get('https://langaj.chronicstone.online/settings/')
+             .then(response => (this.ATCSettings = StoreSettings(response.data.settings)))
     },
     methods: {
         dispNewAssess() { 
             var idAsess = this.userAssessments.length + 1
-            var newAssess = {'id' : idAsess, 'name' : 'Assessment' + idAsess, 'content' : 'This is assessment ' + idAsess}
+            var newAssess = {'id' : idAsess, 'name' : 'Assessment' + idAsess, 'content' : 'This is assessment ' + idAsess, 'state' : 'created', 'assessment_name' : 'New Assessment'}
             this.userAssessments.push(newAssess) 
+        },
+        labelAssess(state) {
+            if(state === 'created') {
+                this.tabColor = "warning"
+            }
+            else {
+                this.tabColor="success"
+
+            }
         }
+    },
+    StoreSettings() {
+        
     }
 }
 </script>

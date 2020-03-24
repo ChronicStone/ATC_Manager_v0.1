@@ -33,13 +33,18 @@ const router = new Router({
         // =============================================================================
               {
                 path: '/',
-                name: 'home',
-                component: () => import('./views/Home.vue')
+                name: 'dashboard',
+                component: () => import('./views/Dashboard.vue')
               },
               {
                 path: '/settings',
                 name: 'Settings',
                 component: () => import('./views/Settings.vue')
+              },
+              {
+                path: '/assessments',
+                name: 'Assessments',
+                component: () => import('./views/Assessments.vue')
               },
               {
                 path: '/addTestTaker',
@@ -53,8 +58,8 @@ const router = new Router({
                 props: true,
               },
               {
-                path: '/users',
-                name: 'users',
+                path: '/candidates',
+                name: 'Candidates',
                 component: () => import('./views/user/user-list/UserList.vue')
               },
             ],

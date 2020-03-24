@@ -11,8 +11,8 @@
 export default [
   {
     url: "/",
-    name: "Home",
-    slug: "home",
+    name: "Dashboard",
+    slug: "dashboard",
     icon: "HomeIcon",
   },
   {
@@ -21,4 +21,17 @@ export default [
     slug: "settings",
     icon: "SettingsIcon",
   },
+  {
+    url: "/candidates",
+    name: "Candidates",
+    slug: "candidates",
+    icon: "UsersIcon",
+  },
+  {
+    url: "/assessments",
+    name: "Assessments",
+    slug: "assessments",
+    icon: "ListIcon",
+  },
+
 ]
