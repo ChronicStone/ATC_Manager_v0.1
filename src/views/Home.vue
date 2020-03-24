@@ -66,7 +66,7 @@
 
         <template slot-scope="{data}">
           <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-            <vs-td :data="data[indextr].name" @click="RedirectUserdata([indextr.id)">
+            <vs-td :data="data[indextr].name" @click="RedirectUser(data[indextr].id)">
               {{data[indextr].first_name}}
               {{data[indextr].name}}
             </vs-td>
