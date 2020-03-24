@@ -65,7 +65,7 @@
         </template>
 
         <template slot-scope="{data}">
-          <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" @click="RedirectUser(data[indextr].id)">
+          <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
             <vs-td :data="data[indextr].name" >
               {{data[indextr].first_name}}
               {{data[indextr].name}}
@@ -91,8 +91,8 @@
             </vs-td>          
 
             <vs-td style="width:20%;">
-              <vs-button color="primary" type="flat">Afficher</vs-button>
-              <vs-button color="danger" type="flat">Supprimer</vs-button>
+              <vs-button color="primary" type="flat" @click="RedirectUser(data[indextr].id)" >Afficher</vs-button>
+              <vs-button color="danger" type="flat">upprimer</vs-button>
             </vs-td>
           </vs-tr>
         </template>
