@@ -162,7 +162,7 @@ export default {
       return 'danger'
     },
     RedirectUser(id) {
-      this.$router.push('/test-taker/{id}')
+      this.$router.push('/test-taker/${id}')
     }
   }
 }
