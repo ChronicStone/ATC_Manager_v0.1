@@ -1,4 +1,5 @@
-<template>
+<template> 
+<!--
   <svg viewBox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
       <defs>
           <linearGradient x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%" id="linearGradient-1">
@@ -21,5 +22,9 @@
               </g>
           </g>
       </g>
-  </svg>
+  </svg>-->
+
+  <div>
+     <img src="@/assets/images/logo/logo.png"/>
+  </div>
 </template>
