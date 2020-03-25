@@ -5,3 +5,13 @@
       </div>
     </vx-card>
 </template>
+
+<script>
+export default {
+  beforeCreate: function() {
+    if (!this.$session.exists()) {
+      this.$router.push('/pages/login')
+    }
+  },
+}
+</script>
