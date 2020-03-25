@@ -167,8 +167,7 @@ export default {
 }
 </script>
 
-<
-style scoped >
+<style scoped >
   .pdfdownload {
     display: flex;
     justify - content: space - around;
