@@ -19,9 +19,9 @@ Vue.use(Vuesax)
 
 // FontAwesome Import
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUserSecret, faMars, faVenus } from '@fortawesome/free-solid-svg-icons'
+import { faUserSecret, faMars, faVenus, faMale, faFemale } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-library.add(faUserSecret, faMars, faVenus) 
+library.add(faUserSecret, faMars, faVenus, faMale, faFemale) 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 // axios
@@ -55,6 +55,10 @@ import router from './router'
 // Vuex Store
 import store from './store/store'
 
+
+// VeeValidate import
+import { ValidationProvider } from 'vee-validate';
+Vue.component('ValidationProvider', ValidationProvider);
 
 // Vuejs - Vue wrapper for hammerjs
 import { VueHammer } from 'vue2-hammer'

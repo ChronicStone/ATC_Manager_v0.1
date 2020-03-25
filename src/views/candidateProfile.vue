@@ -8,7 +8,7 @@
             <!-- Avatar Col -->
             <div class="vx-col" id="avatar-col">
                 <div class="img-container mb-4">
-                <img :src="userData.test_taker_photo" class="rounded w-full" />
+                    <img :src="userData.test_taker_photo" class="rounded w-full h-auto" />
                 </div>
             </div>
 
