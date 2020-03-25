@@ -2,7 +2,6 @@
   <div>
     <vs-breadcrumb class="mb-5":items="[{title: 'Home', url: ''}, {title: 'Test Assessments Manager', url: '', active: true}]" separator="chevron_right">
     </vs-breadcrumb>
-           
       <vs-table
         class=""
         ref="table"
@@ -12,11 +11,6 @@
         :max-items="nbItems"
         :data=  "testQueries">
         <template slot="header">
-          <h3>
-            <vs-button class="ml-2" size="small" color="primary" type="border" @click="addTestTaker">Add test taker</vs-button>
-          </h3>
-       
-
           <!-- ITEMS PER PAGE -->
           <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler">
             <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
@@ -79,11 +73,11 @@
             </vs-td>
 
             <vs-td :data="data[indextr].global_level">
-              <div v-if="data[indextr].global_level === ''">
+              <div v-if="data[indextr].global_level === null">
                 Not available yet
               </div>
               <div v-else>
-                {{data[indextr].gl}}
+                {{data[indextr].global_level}}
               </div>
             </vs-td>
 

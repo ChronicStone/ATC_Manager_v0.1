@@ -17,6 +17,12 @@ import 'material-icons/iconfont/material-icons.css' //Material Icons
 import 'vuesax/dist/vuesax.css'; // Vuesax
 Vue.use(Vuesax)
 
+// FontAwesome Import
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faUserSecret, faMars, faVenus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+library.add(faUserSecret, faMars, faVenus) 
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 // axios
 import axios from "./axios.js"

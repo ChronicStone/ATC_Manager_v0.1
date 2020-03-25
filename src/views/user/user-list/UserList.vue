@@ -46,27 +46,26 @@
             <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
             <vs-dropdown-menu>
 
-              <vs-dropdown-item @click="this.paginationPageSize = 5">
+              <vs-dropdown-item @click="paginationPageSize = 5">
                 <span>5</span>
               </vs-dropdown-item>
-              <vs-dropdown-item @click="this.paginationPageSize = 20">
+              <vs-dropdown-item @click="paginationPageSize = 20">
                 <span>20</span>
               </vs-dropdown-item>
-              <vs-dropdown-item @click="this.paginationPageSize = 50">
+              <vs-dropdown-item @click="paginationPageSize = 50">
                 <span>50</span>
               </vs-dropdown-item>
-              <vs-dropdown-item @click="this.paginationPageSize = 100">
+              <vs-dropdown-item @click="paginationPageSize = 100">
                 <span>100</span>
               </vs-dropdown-item>
             </vs-dropdown-menu>
           </vs-dropdown>
-        </div>
+        </div> 
 
         <!-- TABLE ACTION COL-2: SEARCH & EXPORT AS CSV -->
-          <vs-input class="sm:mr-4 mr-0 sm:w-auto w-full sm:order-normal order-3 sm:mt-0 mt-4" v-model="searchQuery" @input="updateSearchQuery" placeholder="Search..." />
-          <!-- <vs-button class="mb-4 md:mb-0" @click="gridApi.exportDataAsCsv()">Export as CSV</vs-button> -->
+            <vs-button class="ml-2" color="primary" type="border" @click="addTestTaker">Add test taker</vs-button>
 
-          <!-- ACTION - DROPDOWN -->
+          <!-- ACTION - DROPDOWN 
           <vs-dropdown vs-trigger-click class="cursor-pointer">
 
             <div class="p-3 shadow-drop rounded-lg d-theme-dark-light-bg cursor-pointer flex items-end justify-center text-lg font-medium w-32">
@@ -79,7 +78,7 @@
               <vs-dropdown-item>
                 <span class="flex items-center">
                   <feather-icon icon="TrashIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Delete</span>
+                  <span>Add test taker</span>
                 </span>
               </vs-dropdown-item>
 
@@ -105,7 +104,7 @@
               </vs-dropdown-item>
 
             </vs-dropdown-menu>
-          </vs-dropdown>
+          </vs-dropdown> -->
       </div>
 
 
@@ -160,7 +159,7 @@ export default {
   },
   data () {
     return {
-      paginationPageSize: 5,
+      paginationPageSize: 10,
       usersData:null,
       roleFilter: { label: 'All', value: 'all' },
       roleOptions: [
@@ -205,13 +204,14 @@ export default {
       },
       columnDefs: [
         {
-          headerName: 'ID',
-          field: 'id',
-          width: 125,
-          filter: true,
+          headerName: 'Gender',
+          field: 'gender',
+          width: 150,
           checkboxSelection: true,
           headerCheckboxSelectionFilteredOnly: true,
-          headerCheckboxSelection: true
+          headerCheckboxSelection: true,
+          cellRendererFramework: 'CellRendererVerified'
+
         },
         {
           headerName: 'First name',
@@ -229,52 +229,33 @@ export default {
           headerName: 'Email',
           field: 'mail',
           filter: true,
-          width: 170
-        },
-        {
-          headerName: 'Name',
-          field: 'name',
-          filter: true,
-          width: 170
-        },
-        {
-          headerName: 'Country',
-          field: 'country',
-          filter: true,
-          width: 170
-        },
-        {
-          headerName: 'Role',
-          field: 'role',
-          filter: true,
-          width: 170
+          width: 250
         },
         {
           headerName: 'Status',
-          field: 'status',
+          field: 'test_taker_status',
           filter: true,
-          width: 170,
-          cellRendererFramework: 'CellRendererStatus'
+          width: 185,
+          cellRendererFramework: 'CellRendererStatus',
+          cellClass: 'text-center'
         },
         {
-          headerName: 'Verified',
-          field: 'is_verified',
+          headerName: 'Organisation',
+          field: 'organisation',
           filter: true,
-          width: 125,
-          cellRendererFramework: 'CellRendererVerified',
-          cellClass: 'text-center'
+          width: 220
         },
         {
           headerName: 'Department',
           field: 'department',
           filter: true,
-          width: 150
+          width: 220
         },
         {
           headerName: 'Actions',
           field: 'transactions',
-          width: 150,
-          cellRendererFramework: 'CellRendererActions'
+          width: 160,
+          cellRendererFramework: 'CellRendererActions',
         }
       ],
 
@@ -328,6 +309,9 @@ export default {
     }
   },
   methods: {
+    addTestTaker() {
+      this.$router.push('/addTestTaker')
+    },
     setColumnFilter (column, val) {
       const filter = this.gridApi.getFilterInstance(column)
       let modelObj = null
