@@ -140,7 +140,17 @@
             </vs-td>
           </vs-tr>
         </template>
+
       </vs-table>
+      <vs-alert v-if="successRow > 0" class="mt-4" color="success" icon-pack="feather" :active.sync="msgBoxSuccesUpdate" icon="icon-info" closable close-icon="icon-x">
+        <span>SUCCESS : Status of <b>{{ successRow }}</b> assessment(s) has been updated</span>
+      </vs-alert>
+      <vs-alert v-if="invalidRow > 0" class="mt-4" color="warning" icon-pack="feather" :active.sync="msgBoxInvalidUpdate" icon="icon-info" closable close-icon="icon-x">
+        <span>WARNING : Tried to assign <b>{{ invalidRow }}</b> test(s) where status isn't <i>Created</i></span>
+      </vs-alert>
+      <vs-alert v-if="failedRow > 0" class="mt-4" color="danger" icon-pack="feather" :active.sync="msgBoxFailedUpdate" icon="icon-info" closable close-icon="icon-x">
+        <span>ERROR : Request failed for <b>{{ failedRow }}</b> assessment(s).</span>
+      </vs-alert>
   </div>
 </template>
 
@@ -167,9 +177,13 @@ export default {
 	],
     selected: [],
     testQueries: [],
+    // Data des check errors on action
     successRow:0,
     failedRow:0,
     invalidRow:0,
+    msgBoxSuccesUpdate:false,
+    msgBoxInvalidUpdate:false,
+    msgBoxFailedUpdate:false
   }),
   beforeCreate: function() {
     if (!this.$session.exists()) {
@@ -215,8 +229,12 @@ export default {
       this.successRow = 0
       this.failedRow = 0
       this.invalidRow = 0
+
       for(var i = 0; i < this.selected.length; i++) {
         if(this.selected[i].test_status === 'Created') {
+          this.msgBoxSuccesUpdate = true
+          this.msgBoxFailedUpdate = true
+          this.msgBoxInvalidUpdate = true
           var today = new Date();
           var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
           var url='https://langaj.chronicstone.online/test-assessment/'
@@ -231,19 +249,14 @@ export default {
               .then(response => {
                 this.successRow +=1 
                 this.ReloadAPIData()
+                this.selected.splice(i - 1, 1)
               })
-              .catch(error => {this.failedRow = this.failedRow + 1});
+              .catch(error => {this.failedRow += 1});
         }
         else {
+          this.selected.splice(i - 1, 1)
           this.invalidRow++
         }
-      }
-      if(this.successRow > 0 && this.failedRow == 0 && this.invalidRow == 0) {
-          this.$vs.notify({
-            title:'Request success',
-            text:'<b>' + successRow + ' </b> assessments have been correctly assigned',
-            color:'danger'
-        })
       }
     },
     ReloadAPIData() {
