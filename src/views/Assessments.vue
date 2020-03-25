@@ -225,16 +225,20 @@ export default {
     RedirectUser(id) {
       this.$router.push(`/test-taker/${id}`).catch(() => {})
     },
-    AssignTest() {
+    PrepareResultMsg() {
       this.successRow = 0
       this.failedRow = 0
       this.invalidRow = 0
-
+      this.msgBoxSuccesUpdate = true
+      this.msgBoxFailedUpdate = true
+      this.msgBoxInvalidUpdate = true
+    },
+    AssignTest() {
+      var toRemoveArray = []
+      this.PrepareResultMsg()
       for(var i = 0; i < this.selected.length; i++) {
         if(this.selected[i].test_status === 'Created') {
-          this.msgBoxSuccesUpdate = true
-          this.msgBoxFailedUpdate = true
-          this.msgBoxInvalidUpdate = true
+
           var today = new Date();
           var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
           var url='https://langaj.chronicstone.online/test-assessment/'
@@ -249,15 +253,18 @@ export default {
               .then(response => {
                 this.successRow +=1 
                 this.ReloadAPIData()
-                this.selected.splice(i - 1, 1)
+                toRemoveArray.push(i - 1)
+                //this.selected.splice(i - indexLocalizer, 1)
               })
               .catch(error => {this.failedRow += 1});
         }
         else {
-          this.selected.splice(i - 1, 1)
+          toRemoveArray.push(i - 1)
+          //this.selected.splice(i - indexLocalizer, 1)
           this.invalidRow++
         }
       }
+      this.selected = []
     },
     ReloadAPIData() {
       axios
