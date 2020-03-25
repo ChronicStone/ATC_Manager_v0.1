@@ -168,6 +168,9 @@
                                     <vs-button color="warning" type="border" class="mb-2" @click="input1 = input2 = input3 = input4 = input4 = ''; check1 = false;">Reset</vs-button>
                                 </div>
                             </div>
+                            <vs-alert v-if="errEmptyInput === true" class="mt-4" :active="inputValid" color="danger" icon-pack="feather" icon="icon-info">
+                                <span>ERROR : You did not select a due date, test name or batch session</span>
+                            </vs-alert>
                         </div>
                     </div>
                 </vs-tab>
@@ -197,6 +200,7 @@ export default {
     data() {
         return {
             isMounted:false,
+            errEmptyInput:false,
             ATCSettings:[],
             userData: [],
             userAssessments:[],
@@ -245,6 +249,7 @@ export default {
         },
         submitForm(id_assess) {
             if (this.selectedTest != '' && this.selectedDueDate != '' && this.selectedBatch != '') {
+                this.errEmptyInput = false
                 var result = []
                 var today = new Date();
                 var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -282,7 +287,7 @@ export default {
                     });
             } 
             else {
-                alert("Veuillez remplir les champs obligatoires");
+                this.errEmptyInput = true
             }
         },
         ReloadAPIData() {
