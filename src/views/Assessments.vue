@@ -1,7 +1,6 @@
 <template lang="html">
   <div>
-    <vs-breadcrumb class="mb-5":items="[{title: 'Home', url: ''}, {title: 'Test Assessments Manager', url: '', active: true}]" separator="chevron_right">
-    </vs-breadcrumb>
+    <vs-breadcrumb class="mb-5" :items="[{title: 'Home', url: '/'}, {title: 'Assessments', url: '', active: true}]" separator="chevron_right"></vs-breadcrumb>
       <vs-table
         class=""
         ref="table"
@@ -9,31 +8,76 @@
         v-model="selected"
         pagination
         :max-items="nbItems"
-        :data=  "testQueries">
+        :data="testQueries">
         <template slot="header">
-          <!-- ITEMS PER PAGE -->
-          <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler">
-            <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
-              <span class="mr-2">{{ currentPage * nbItems - (nbItems - 1) }} - {{ queries.length - currentPage * nbItems > 0 ? currentPage * nbItems : queries.length }} of {{ queriedItems }}</span>
-              <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
-            </div>
-            <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
-            <vs-dropdown-menu>
+          <div class="w-full flex justify-between">
+            <!-- ACTION - DROPDOWN -->
+            <vs-dropdown vs-trigger-click class="dd-actions cursor-pointer mr-4 mb-4">
 
-              <vs-dropdown-item @click="nbItems=5">
-                <span>5</span>
-              </vs-dropdown-item>
-              <vs-dropdown-item @click="nbItems=20">
-                <span>20</span>
-              </vs-dropdown-item>
-              <vs-dropdown-item @click="nbItems=50">
-                <span>50</span>
-              </vs-dropdown-item>
-              <vs-dropdown-item @click="nbItems=queries.length">
-                <span>All</span>
-              </vs-dropdown-item>
-            </vs-dropdown-menu>
-          </vs-dropdown>
+              <div class="p-4 shadow-drop rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-center text-lg font-medium w-32 w-full">
+                <span class="mr-2">Update status</span>
+                <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
+              </div>
+
+              <vs-dropdown-menu>
+
+                <vs-dropdown-item @click="AssignTest()">
+                  <span class="flex items-center">
+                    <feather-icon icon="TrashIcon" svgClasses="h-4 w-4" class="mr-2" />
+                    <span>Assign test</span>
+                  </span>
+                </vs-dropdown-item>
+                <!--
+                <vs-dropdown-item>
+                  <span class="flex items-center">
+                    <feather-icon icon="ArchiveIcon" svgClasses="h-4 w-4" class="mr-2" />
+                    <span>Archive</span>
+                  </span>
+                </vs-dropdown-item>
+
+                <vs-dropdown-item>
+                  <span class="flex items-center">
+                    <feather-icon icon="FileIcon" svgClasses="h-4 w-4" class="mr-2" />
+                    <span>Print</span>
+                  </span>
+                </vs-dropdown-item>
+
+                <vs-dropdown-item>
+                  <span class="flex items-center">
+                    <feather-icon icon="SaveIcon" svgClasses="h-4 w-4" class="mr-2" />
+                    <span>Another Action</span>
+                  </span>
+                </vs-dropdown-item> -->
+
+              </vs-dropdown-menu>
+            </vs-dropdown>
+
+            <!-- ITEMS PER PAGE -->
+            <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler">
+              <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
+                <span class="mr-2">{{ currentPage * nbItems - (nbItems - 1) }} - {{ queries.length - currentPage * nbItems > 0 ? currentPage * nbItems : queries.length }} of {{ queriedItems }}</span>
+                <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
+              </div>
+              <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
+              <vs-dropdown-menu>
+
+                <vs-dropdown-item @click="nbItems=5">
+                  <span>5</span>
+                </vs-dropdown-item>
+                <vs-dropdown-item @click="nbItems=20">
+                  <span>20</span>
+                </vs-dropdown-item>
+                <vs-dropdown-item @click="nbItems=50">
+                  <span>50</span>
+                </vs-dropdown-item>
+                <vs-dropdown-item @click="nbItems=queries.length">
+                  <span>All</span>
+                </vs-dropdown-item>
+              </vs-dropdown-menu>
+            </vs-dropdown>
+          </div>
+
+
         </template>
 
         <template slot="thead">
@@ -43,7 +87,7 @@
           <vs-th sort-key="expected_due_date">
             Due date
           </vs-th>
-          <vs-th sort-key="status">
+          <vs-th sort-key="test_status">
             Status
           </vs-th>
           <vs-th sort-key="gl">
@@ -69,7 +113,7 @@
             </vs-td>
 
             <vs-td :data="data[indextr].test_status">
-              <vs-chip :color="getOrderStatusColor(data[indextr].status)" class="product-order-status">{{data[indextr].test_status}}</vs-chip>
+              <vs-chip :color="getOrderStatusColor(data[indextr].test_status)" class="product-order-status">{{data[indextr].test_status}}</vs-chip>
             </vs-td>
 
             <vs-td :data="data[indextr].global_level">
@@ -122,7 +166,10 @@ export default {
       { text: '100', value: 100 },
 	],
     selected: [],
-    testQueries: []
+    testQueries: [],
+    successRow:0,
+    failedRow:0,
+    invalidRow:0,
   }),
   beforeCreate: function() {
     if (!this.$session.exists()) {
@@ -156,27 +203,66 @@ export default {
     getOrderStatusColor(status) {
       if (status === 'Started') return '#5BB7EB'
       if (status === 'Created') return '#FF7D6B'
-      if (status === 'Assigned') return '#EBBD38'
+      if (status === 'Assigned') return '#C48D25'
       if (status === 'Done') return 'success'
       if (status === 'Pending') return '#BCC4C4'
       return 'danger'
     },
     RedirectUser(id) {
       this.$router.push(`/test-taker/${id}`).catch(() => {})
-    }
+    },
+    AssignTest() {
+      this.successRow = 0
+      this.failedRow = 0
+      this.invalidRow = 0
+      for(var i = 0; i < this.selected.length; i++) {
+        if(this.selected[i].test_status === 'Created') {
+          var today = new Date();
+          var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+          var url='https://langaj.chronicstone.online/test-assessment/'
+          var headers= {'Accept': 'application/json','Content-Type': 'application/x-www-form-urlencoded'}
+          var data = {
+            "request": 2,
+            "id": this.selected[i].id,
+            "status_update": 'Assigned',
+            "cr_date": date,
+          }
+          axios.post(url, data, headers)
+              .then(response => {
+                this.successRow +=1 
+                this.ReloadAPIData()
+              })
+              .catch(error => {this.failedRow = this.failedRow + 1});
+        }
+        else {
+          this.invalidRow++
+        }
+      }
+      if(this.successRow > 0 && this.failedRow == 0 && this.invalidRow == 0) {
+          this.$vs.notify({
+            title:'Request success',
+            text:'<b>' + successRow + ' </b> assessments have been correctly assigned',
+            color:'danger'
+        })
+      }
+    },
+    ReloadAPIData() {
+      axios
+        .get('https://langaj.chronicstone.online/test-assessment/get/index.php?session_id=' + this.$session.get('session_id'))
+        .then(response => (this.testQueries = response.data.data))
+    },
   }
 }
 </script>
 
-<
-style scoped >
+<style scoped >
   .pdfdownload {
     display: flex;
-    justify - content: space - around;
+    justify-content: space - around;
     float: left;
   }
 
-  .bg - custom {
-    background - color: rgb(38, 44, 71);
+  .bg-custom {
+    background-color: rgb(38, 44, 71);
   }
 </style>

@@ -170,11 +170,11 @@ export default {
 <style scoped >
   .pdfdownload {
     display: flex;
-    justify - content: space - around;
+    justify-content: space-around;
     float: left;
   }
 
-  .bg - custom {
-    background - color: rgb(38, 44, 71);
+  .bg-custom {
+    background-color: rgb(38, 44, 71);
   }
 </style>

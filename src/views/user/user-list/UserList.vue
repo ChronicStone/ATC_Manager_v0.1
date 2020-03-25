@@ -10,6 +10,7 @@
 <template>
 
   <div id="page-user-list">
+    <vs-breadcrumb class="mb-5" :items="[{title: 'Home', url: '/'}, {title: 'Candidates', url: '/candidates', active: true}]" separator="chevron_right"></vs-breadcrumb>
 
     <vx-card ref="filterCard" title="Filters" class="user-list-filters mb-8" actionButtons @refresh="resetColFilters" @remove="resetColFilters">
       <div class="vx-row">

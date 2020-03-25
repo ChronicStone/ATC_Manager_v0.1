@@ -45,10 +45,3 @@ export default {
   }
 }
 </style>
-
-<style scoped>
-
-.bgpink {
-  background-color:;
-}
-</style>

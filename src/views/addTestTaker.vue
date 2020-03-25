@@ -1,7 +1,6 @@
 <template>
     <div>
-        <vs-breadcrumb class="mb-5" :items="[{title: 'Home', url: ''}, {title: 'Test Assessments Manager', url: '/'}, {title: 'Add Test Taker', active: true}]" separator="chevron_right">
-        </vs-breadcrumb>
+        <vs-breadcrumb class="mb-5" :items="[{title: 'Home', url: '/'}, {title: 'Candidates', url: '/candidates'}, {title: 'New candidate', url: '/AddTestTaker', active: true}]" separator="chevron_right"></vs-breadcrumb>
         <div class="vx-card p-5">
             <h3 class="mb-3 text-primary">
                 Add new Test Taker
