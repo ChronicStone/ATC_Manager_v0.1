@@ -1,5 +1,6 @@
 <template>
     <div :style="{'direction': $vs.rtl ? 'rtl' : 'ltr'}">
+      <feather-icon icon="EyeIcon" svgClasses="h-5 w-5 mr-4 cursor-pointer" @click="viewRecord" />
       <feather-icon icon="Edit3Icon" svgClasses="h-5 w-5 mr-4 text-primary cursor-pointer" @click="editRecord" />
       <feather-icon icon="Trash2Icon" svgClasses="h-5 w-5 text-danger cursor-pointer" @click="confirmDeleteRecord" />
     </div>
@@ -9,15 +10,11 @@
 export default {
   name: 'CellRendererActions',
   methods: {
-    editRecord () {
+    viewRecord () {
       this.$router.push(`/test-taker/${this.params.data.id}`).catch(() => {})
-
-      /*
-              Below line will be for actual product
-              Currently it's commented due to demo purpose - Above url is for demo purpose
-
-              this.$router.push("/apps/user/user-edit/" + this.params.data.id).catch(() => {})
-            */
+    },    
+    editRecord () {
+      this.$router.push(`/editTestTaker/${this.params.data.id}`).catch(() => {})
     },
     confirmDeleteRecord () {
       this.$vs.dialog({

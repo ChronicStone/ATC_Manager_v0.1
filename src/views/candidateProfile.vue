@@ -51,7 +51,7 @@
 
 
             <div class="vx-col w-full flex" id="account-manage-buttons">
-                <vs-button icon-pack="feather" icon="icon-edit" class="mr-4" :to="{name: 'test-taker-edit', params: { userId: $route.params.id }}">Edit</vs-button>
+                <vs-button icon-pack="feather" icon="icon-edit" class="mr-4" @click.prevent="editCandidate()">Edit</vs-button>
                 <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash">Delete</vs-button>
             </div>
 
@@ -299,6 +299,9 @@ export default {
             this.selectedBatch = ''
             this.selectedDueDate = ''
             this.selectedTest = ''
+        },
+        editCandidate() {
+            this.$router.push(`/editTestTaker/${this.userData.id}`).catch(() => {})
         }
     },
     

@@ -46,6 +46,14 @@ const router = new Router({
                 name: 'Assessments',
                 component: () => import('./views/Assessments.vue')
               },
+              // Create TEST TAKER
+              {
+                path: '/editTestTaker/:id',
+                name: 'editTestTaker',
+                component: () => import('./views/addTestTaker.vue'),
+                props: true,
+              },              
+              // Edit TEST TAKER
               {
                 path: '/addTestTaker',
                 name: 'addTestTaker',

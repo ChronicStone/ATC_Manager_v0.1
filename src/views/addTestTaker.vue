@@ -2,8 +2,11 @@
     <div v-if="this.isMounted === true">
         <vs-breadcrumb class="mb-5" :items="[{title: 'Home', url: '/'}, {title: 'Candidates', url: '/candidates'}, {title: 'New candidate', url: '/AddTestTaker', active: true}]" separator="chevron_right"></vs-breadcrumb>
         <div class="vx-card p-5">
-            <h3 class="mb-3 text-primary">
+            <h3 class="mb-3 text-primary" v-if="$route.params.id == null">
                 Add new Test Taker
+            </h3>
+            <h3 class="mb-3 text-primary" v-if="$route.params.id != null">
+                Edit Test Taker
             </h3>
             <ValidationObserver ref="form">
                 <form class="ml-1" @submit.prevent="onSubmit">
@@ -31,7 +34,7 @@
                     <div class="vx-row">
                         <div class="vx-col sm:w-1/2 w-full mb-2">
                             <ValidationProvider name="First name" :rules="{ required: true, alpha: true }" v-slot="{ errors }">
-                                <vs-input class="w-full" :color="setInputColor(errors)" label-placeholder="First Name *" v-model="formInputs.fname" />
+                                <vs-input class="w-full" :color="setInputColor(errors)" label-placeholder="First Name *" v-model="formInputs.first_name" />
                                 <vs-alert v-if="errors[0] != null" color="danger" icon-pack="feather" icon="icon-info" class="mt-2 p-0"> 
                                     <span>{{ errors[0] }}</span>
                                 </vs-alert>
@@ -39,7 +42,7 @@
                         </div>
                         <div class="vx-col sm:w-1/2 w-full mb-2">
                             <ValidationProvider name="Last name" :rules="{ required: true, alpha: true }" v-slot="{ errors }">
-                                <vs-input class="w-full" :color="setInputColor(errors)" label-placeholder="Last Name *" v-model="formInputs.lname" />
+                                <vs-input class="w-full" :color="setInputColor(errors)" label-placeholder="Last Name *" v-model="formInputs.last_name" />
                                 <vs-alert v-if="errors[0] != null" color="danger" icon-pack="feather" icon="icon-info" class="mt-2 p-0"> 
                                     <span>{{ errors[0] }}</span>
                                 </vs-alert>
@@ -189,9 +192,10 @@ export default {
 	    ],
         formInputs:{
             request: 1,
+            candidate_id: null,
             session_id: null,
-            fname : '',
-            lname : '',
+            first_name : '',
+            last_name : '',
             mail : '',
             birth_date : '',
             phone_nb_mobile : '',
@@ -224,8 +228,36 @@ export default {
                 for(var i = 0; i < response.data.length; i++) {
                     this.listCountries[i] = {'id' : i, 'label' : response.data[i].name}
                 }
-                this.isMounted = true
-            })             
+                if(this.$route.params.id  == null) {this.isMounted = true}
+            })
+        if(this.$route.params.id != null) {
+            this.formInputs.request = 2
+            axios.get('https://langaj.chronicstone.online/test-taker/get/index.php?id=' + this.$route.params.id)
+                 .then(response => {
+                     var userData = response.data.data[0]
+                     this.formInputs.candidate_id = userData.id
+                     this.formInputs.first_name = userData.first_name
+                     this.formInputs.last_name = userData.last_name
+                     this.formInputs.mail = userData.mail
+                     this.formInputs.birth_date = userData.birth_date
+                     this.formInputs.phone_nb_mobile = userData.mobile_phone_number
+                     this.formInputs.phone_nb_other = userData.other_phone_number
+                     this.formInputs.gender = userData.gender
+                     this.formInputs.adress = userData.first_name
+                     this.formInputs.adress2 = userData.first_name
+                     this.formInputs.zip_code = userData.zip_code
+                     this.formInputs.city = userData.city
+                     this.formInputs.country = userData.country
+                     this.formInputs.nationality = userData.nationality
+                     this.formInputs.mother_tongue = userData.mother_tongue
+                     this.formInputs.lmap_interface_lang = userData.lmap_interface_language
+                     this.formInputs.id_doc_type = userData.ID_doc_type
+                     this.formInputs.id_doc_number = userData.ID_doc_number
+                     this.formInputs.id_doc = userData.ID_doc
+                     this.formInputs.user_photo = userData.user_photo
+                     this.isMounted = true
+                 })
+        }
     },
     methods: {
         onSubmit () {
@@ -238,12 +270,23 @@ export default {
                 var headers= {'Accept': 'application/json','Content-Type': 'application/x-www-form-urlencoded'}
                 axios.post(url, this.formInputs, headers)
                     .then(response => {
-                        this.$vs.notify({
-                            title:'Success',
-                            text:'The candidate has been successfully created',
-                            color:'success'
-                        })
-                        setTimeout( () => this.$router.push({ path: '/candidates'}), 750);
+                        if(this.$route.params.id == null) {
+                            this.$vs.notify({
+                                title:'Success',
+                                text:'The candidate has been successfully created',
+                                color:'success'
+                            })
+                            setTimeout( () => this.$router.push({ path: '/candidates'}), 750);
+                        }
+                        else {
+                            this.$vs.notify({
+                                title:'Success',
+                                text:'The candidate has been successfully updated',
+                                color:'success'
+                            })
+                            setTimeout( () => this.$router.push(`/test-taker/${this.$route.params.id}`).catch(() => {}), 750);
+                        }
+
                     })
                     .catch(function (error) {
                         this.$vs.notify({
@@ -253,7 +296,7 @@ export default {
                         })
                     });
 
-                //this.formInputs.fname = this.formInputs.lname = this.formInputs.mail = this.formInputs.birth_date = this.formInputs.gender = this.formInputs.phone_nb_mobile = this.formInputs.phone_nb_other = this.formInputs.adress = this.formInputs.adress2 = this.formInputs.zip_code = this.formInputs.city = this.formInputs.country = this.formInputs.id_doc_type = this.formInputs.id_doc_number = this.formInputs.nationality = this.formInputs.mother_tongue = '';
+                //this.formInputs.first_name = this.formInputs.last_name = this.formInputs.mail = this.formInputs.birth_date = this.formInputs.gender = this.formInputs.phone_nb_mobile = this.formInputs.phone_nb_other = this.formInputs.adress = this.formInputs.adress2 = this.formInputs.zip_code = this.formInputs.city = this.formInputs.country = this.formInputs.id_doc_type = this.formInputs.id_doc_number = this.formInputs.nationality = this.formInputs.mother_tongue = '';
                 // Wait until the models are updated in the UI
                 this.$nextTick(() => {
                     this.$refs.form.reset();
@@ -261,7 +304,7 @@ export default {
             });
         },
         submitForm() {
-            if (this.formInputs.gender != '' && this.formInputs.fname != '' && this.formInputs.lname != '' && this.formInputs.mail != '' && this.formInputs.country != '') {
+            if (this.formInputs.gender != '' && this.formInputs.first_name != '' && this.formInputs.last_name != '' && this.formInputs.mail != '' && this.formInputs.country != '') {
 
             } 
             else {
@@ -282,7 +325,7 @@ export default {
             this.formInputs.mother_tongue = this.formInputs.mother_tongue.label
             this.formInputs.nationality = this.formInputs.nationality.label
             this.formInputs.id_doc_type = this.formInputs.id_doc_type.label
-            if(this.formInputs.birth_date != '') {
+            if(this.formInputs.birth_date.toString().length > 10) {
                 this.formInputs.birth_date = this.formInputs.birth_date.getFullYear()+'-'+(this.formInputs.birth_date.getMonth()+1)+'-'+this.formInputs.birth_date.getDate();
             }
 
