@@ -36,15 +36,14 @@
     <div class="vx-card p-6">
 
       <div class="flex flex-wrap items-center">
-
-        <!-- ITEMS PER PAGE -->
+        
+        <!-- ITEMS PER PAGE 
         <div class="flex-grow">
           <vs-dropdown vs-trigger-click class="cursor-pointer">
             <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
               <span class="mr-2">{{ currentPage * paginationPageSize - (paginationPageSize - 1) }} - {{ usersData.length - currentPage * paginationPageSize > 0 ? currentPage * paginationPageSize : usersData.length }} of {{ usersData.length }}</span>
               <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
             </div>
-            <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
             <vs-dropdown-menu>
 
               <vs-dropdown-item @click="paginationPageSize = 5">
@@ -61,7 +60,7 @@
               </vs-dropdown-item>
             </vs-dropdown-menu>
           </vs-dropdown>
-        </div> 
+        </div>  -->
 
         <!-- TABLE ACTION COL-2: SEARCH & EXPORT AS CSV -->
             <vs-button class="ml-2" color="primary" type="border" @click="addTestTaker">Add test taker</vs-button>
