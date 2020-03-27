@@ -135,7 +135,7 @@
             <vs-td style="width:20%;">
               <div class="flex justify-center">
                 <vs-button radius  color="primary" class="mr-8" type="filled" icon="edit" @click="RedirectUser(data[indextr].test_taker_id)"></vs-button>
-                <vs-button radius  color="danger" type="filled"  icon="delete"></vs-button>
+                <!--<vs-button radius  color="danger" type="filled"  icon="delete"></vs-button>-->
               </div>
             </vs-td>
           </vs-tr>

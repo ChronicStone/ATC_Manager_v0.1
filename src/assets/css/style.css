@@ -58,3 +58,10 @@
 .bg-female {
     background-color:rgb(229, 160, 209);
 }
+
+.settingsElem {
+    padding: 6px 10px 6px 10px;
+    background-color:rgba(189, 189, 189, 0.123);
+    margin-bottom:8px;
+    border-radius: 5px;
+}
