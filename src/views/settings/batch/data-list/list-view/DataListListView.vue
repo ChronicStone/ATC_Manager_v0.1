@@ -121,7 +121,7 @@
               </vs-td>
 
               <vs-td class="whitespace-no-wrap">
-                <feather-icon icon="EyeIcon" svgClasses="w-5 h-5 hover:text-male stroke-current" />
+                <feather-icon icon="EyeIcon" svgClasses="w-5 h-5 hover:txt-male stroke-current" />
                 <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="ml-2" @click.stop="editData(tr)" />
                 <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
               </vs-td>

@@ -20,10 +20,6 @@
 
       <div class="p-6">
 
-        <!-- Date -->
-        <vs-input label="Batch Date" type="date" v-model="dataDate" class="mt-5 w-full" name="item-name"/>
-
-
         <!-- ORDER STATUS -->
         <vs-input label="Batch label" v-model="dataLabel" class="mt-5 w-full" name="item-name"/>
 
@@ -118,7 +114,8 @@ export default {
     initValues () {
       if (this.data.id) return
       this.dataId = null
-      this.dataDate = null
+      this.dataDate = new Date()
+      this.dataDate = this.dataDate.getFullYear()+'-'+(this.dataDate.getMonth()+1)+'-'+this.dataDate.getDate()
       this.dataLabel = '-'
       this.dataState = 'create'
 
@@ -132,6 +129,35 @@ export default {
 
           if (this.dataState ==='edit') {
             // Script edit batch
+              var url='https://langaj.chronicstone.online/settings/'
+              var data = {
+                  request:2,
+                  type:'batch',
+                  id:obj.id,
+                  date:obj.date,
+                  label:obj.label,
+              }
+              var headers= {'Accept': 'application/json','Content-Type': 'application/json'}
+              axios.post(url, data, headers)
+                .then(response => {
+                    console.log(response);
+                    var typeAction = 'create'
+                    var result = 'result'
+                    //this.$emit('successNotif')
+                    this.$vs.notify({
+                      title:'Success',
+                      text:'The batch has been edited',
+                      color:'success'
+                    })
+                    this.$emit('reloadData')
+                })
+                .catch(error => {
+                    this.$vs.notify({
+                      title:'Error',
+                      text:'Batch not created',
+                      color:'success'
+                    })
+                });
           } else {
             // Script create batch
             var url='https://langaj.chronicstone.online/settings/'

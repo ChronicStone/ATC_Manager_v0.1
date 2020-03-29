@@ -1,11 +1,28 @@
 <template>
 	<div>
-		 <vs-tabs :position="isSmallerScreen ? 'top' : 'left'" class="tabs-shadow-none" id="profile-tabs" :key="isSmallerScreen">
+		 <vs-tabs :position="isSmallerScreen ? 'top' : 'top'" class="" id="profile-tabs" :key="isSmallerScreen" color="warning">
 
 			<!-- GENERAL -->
 			<vs-tab icon-pack="feather" icon="icon-list" :label="!isSmallerScreen ? 'Batch' : ''">
-				<div class="tab-general md:ml-4 md:mt-0 mt-4 ml-0">
-					<BatchList></BatchList>
+				<div class="w-full">
+					<vs-tabs :position="isSmallerScreen ? 'top' : 'left'" class="" id="profile-tabs" :key="isSmallerScreen" color="danger">
+
+						<!-- GENERAL -->
+						<vs-tab icon-pack="feather" icon="icon-list" :label="!isSmallerScreen ? 'Batch' : ''">
+							<div class="w-full">
+								<batch-list></batch-list>
+							</div>
+						</vs-tab>
+						<vs-tab icon-pack="feather" icon="icon-lock" :label="!isSmallerScreen ? 'Organisation' : ''">
+							<div class="tab-change-pwd md:ml-4 md:mt-0 mt-4 ml-0">
+								<organisation-list></organisation-list>
+							</div>
+						</vs-tab>
+						<vs-tab icon-pack="feather" icon="icon-info" :label="!isSmallerScreen ? 'Department' : ''">
+							<div class="tab-info md:ml-4 md:mt-0 mt-4 ml-0">
+							</div>
+						</vs-tab>
+			      	</vs-tabs>
 				</div>
 			</vs-tab>
 			<vs-tab icon-pack="feather" icon="icon-lock" :label="!isSmallerScreen ? 'Organisation' : ''">
@@ -23,11 +40,13 @@
 <script>
 
 import axios from "axios";
-import BatchList from './settings/batch/data-list/list-view/DataListListView.vue'
+import BatchList from './settings/batch/data-list/list-view/DataListListView.vue';
+import OrganisationList from './settings/organisation/data-list/list-view/DataListListView.vue'
 
 export default {
 	components: {
-		BatchList
+		BatchList,
+		OrganisationList
 	},
 	data() {
 		return {

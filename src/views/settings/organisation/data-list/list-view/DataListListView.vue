@@ -12,7 +12,7 @@
 
     <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" @reloadData="ReloadAPIData()" @notifResult="notifyResult(typeAction, result)" :data="sidebarData" />
 
-    <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage" search :data="batchlist">
+    <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage" search :data="organisation">
 
       <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
 
@@ -69,7 +69,7 @@
         <!-- ITEMS PER PAGE -->
         <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler">
           <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
-            <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ batchlist.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : batchlist.length }} of {{ queriedItems }}</span>
+            <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ organisation.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : organisation.length }} of {{ queriedItems }}</span>
             <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
           </div>
           <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
@@ -121,7 +121,8 @@
               </vs-td>
 
               <vs-td class="whitespace-no-wrap">
-                <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click.stop="editData(tr)" />
+                <feather-icon icon="EyeIcon" svgClasses="w-5 h-5 hover:txt-male stroke-current" />
+                <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" class="ml-2" @click.stop="editData(tr)" />
                 <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2" @click.stop="deleteData(tr.id)" />
               </vs-td>
 
@@ -137,15 +138,13 @@ import DataViewSidebar from '../DataViewSidebar.vue'
 import axios from "axios";
 
 export default {
-  ref:'ListBatch',
+  name:'ListBatch',
   components: {
     DataViewSidebar
   },
   data () {
     return {
       selected: [],
-      batchlist: [],
-      department: [],
       organisation: [],
       itemsPerPage: 5,
       isMounted: false,
@@ -158,8 +157,6 @@ export default {
   beforeMount() {
 		axios.get('https://langaj.chronicstone.online/settings/')
 			 .then(response => {
-				 this.batchlist = response.data.settings.batch
-				 this.department = response.data.settings.department
 				 this.organisation = response.data.settings.organisation
 			 })
 	},
@@ -171,7 +168,7 @@ export default {
       return 0
     },
     queriedItems () {
-      return this.$refs.table ? this.$refs.table.queriedResults.length : this.batchlist.length
+      return this.$refs.table ? this.$refs.table.queriedResults.length : this.organisation.length
     }
   },
   methods: {
@@ -226,7 +223,7 @@ export default {
     ReloadAPIData() {
       axios.get('https://langaj.chronicstone.online/settings/')
 			 .then(response => {
-				 this.batchlist = response.data.settings.batch
+				 this.organisation = response.data.settings.batch
        })
     },
   },
