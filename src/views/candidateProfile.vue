@@ -1,7 +1,10 @@
 <template>
     <div id="page-user-view">
-        <vx-card title="Test taker profile" class="mb-base">
-
+        <vx-card  class="mb-base">
+            <div class="flex justify-between mb-5 mt-0">
+                <h3>Candidate profile</h3>
+                <span v-if="userData.date_update != null" class="mt-1 text-success"><i>Last update : {{userData.date_update}}</i></span>
+            </div>
             <!-- Avatar -->
             <div class="vx-row">
 
@@ -302,6 +305,11 @@ export default {
         },
         editCandidate() {
             this.$router.push(`/editTestTaker/${this.userData.id}`).catch(() => {})
+        },
+        getProfileTitle() {
+            if(this.userData.date_update != '') {
+                return 'Last edit : ' + this.userData.date_update
+            }
         }
     },
     

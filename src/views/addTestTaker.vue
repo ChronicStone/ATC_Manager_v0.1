@@ -213,6 +213,7 @@ export default {
             id_doc_number : '',
             id_doc : '',
             user_photo : '',
+            last_update: null,
         }
     }),
     beforeCreate: function () {
@@ -232,6 +233,7 @@ export default {
             })
         if(this.$route.params.id != null) {
             this.formInputs.request = 2
+            this.formInputs.last_update = this.currentDate()
             axios.get('https://langaj.chronicstone.online/test-taker/get/index.php?id=' + this.$route.params.id)
                  .then(response => {
                      var userData = response.data.data[0]
@@ -328,7 +330,11 @@ export default {
             if(this.formInputs.birth_date.toString().length > 10) {
                 this.formInputs.birth_date = this.formInputs.birth_date.getFullYear()+'-'+(this.formInputs.birth_date.getMonth()+1)+'-'+this.formInputs.birth_date.getDate();
             }
-
+        },
+        currentDate() {
+            var crDate = new Date()
+            crDate = crDate.getFullYear()+'-'+(crDate.getMonth()+1)+'-'+crDate.getDate();
+            return crDate
         }
     }
 }
