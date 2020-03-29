@@ -1,11 +1,11 @@
 <template>
 	<div>
-		 <vs-tabs :position="isSmallerScreen ? 'top' : 'top'" class="" id="profile-tabs" :key="isSmallerScreen" color="warning">
+		 <vs-tabs :position="isSmallerScreen ? 'top' : 'top'" class="" id="profile-tabs" :key="isSmallerScreen">
 
 			<!-- GENERAL -->
-			<vs-tab icon-pack="feather" icon="icon-list" :label="!isSmallerScreen ? 'Batch' : ''">
+			<vs-tab icon-pack="feather" icon="icon-settings" :label="!isSmallerScreen ? 'Test center settings' : ''">
 				<div class="w-full">
-					<vs-tabs :position="isSmallerScreen ? 'top' : 'left'" class="" id="profile-tabs" :key="isSmallerScreen" color="danger">
+					<vs-tabs :position="isSmallerScreen ? 'top' : 'left'" class="mt-2" id="profile-tabs" :key="isSmallerScreen" color="warning">
 
 						<!-- GENERAL -->
 						<vs-tab icon-pack="feather" icon="icon-list" :label="!isSmallerScreen ? 'Batch' : ''">
@@ -13,23 +13,24 @@
 								<batch-list></batch-list>
 							</div>
 						</vs-tab>
-						<vs-tab icon-pack="feather" icon="icon-lock" :label="!isSmallerScreen ? 'Organisation' : ''">
+						<vs-tab icon-pack="feather" icon="icon-globe" :label="!isSmallerScreen ? 'Organisation' : ''">
 							<div class="tab-change-pwd md:ml-4 md:mt-0 mt-4 ml-0">
 								<organisation-list></organisation-list>
 							</div>
 						</vs-tab>
-						<vs-tab icon-pack="feather" icon="icon-info" :label="!isSmallerScreen ? 'Department' : ''">
+						<vs-tab icon-pack="feather" icon="icon-folder" :label="!isSmallerScreen ? 'Department' : ''">
 							<div class="tab-info md:ml-4 md:mt-0 mt-4 ml-0">
+								<department-list></department-list>
 							</div>
 						</vs-tab>
 			      	</vs-tabs>
 				</div>
 			</vs-tab>
-			<vs-tab icon-pack="feather" icon="icon-lock" :label="!isSmallerScreen ? 'Organisation' : ''">
+			<vs-tab icon-pack="feather" icon="icon-lock" :label="!isSmallerScreen ? 'Other tab' : ''">
 				<div class="tab-change-pwd md:ml-4 md:mt-0 mt-4 ml-0">
 				</div>
 			</vs-tab>
-			<vs-tab icon-pack="feather" icon="icon-info" :label="!isSmallerScreen ? 'Department' : ''">
+			<vs-tab icon-pack="feather" icon="icon-info" :label="!isSmallerScreen ? 'Another tab' : ''">
 				<div class="tab-info md:ml-4 md:mt-0 mt-4 ml-0">
 				</div>
 			</vs-tab>
@@ -42,11 +43,13 @@
 import axios from "axios";
 import BatchList from './settings/batch/data-list/list-view/DataListListView.vue';
 import OrganisationList from './settings/organisation/data-list/list-view/DataListListView.vue'
+import DepartmentList from './settings/department/data-list/list-view/DataListListView.vue'
 
 export default {
 	components: {
 		BatchList,
-		OrganisationList
+		OrganisationList,
+		DepartmentList
 	},
 	data() {
 		return {
@@ -79,6 +82,9 @@ export default {
 			},
 			queriedItems() {
 				return this.$refs.table ? this.$refs.table.queriedResults.length : this.batchlist.length
+			},
+			isSmallerScreen () {
+				return this.$store.state.windowWidth < 768
 			}
 		},
 	methods: {

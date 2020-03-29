@@ -12,7 +12,7 @@
 
     <data-view-sidebar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" @reloadData="ReloadAPIData()" @notifResult="notifyResult(typeAction, result)" :data="sidebarData" />
 
-    <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage" search :data="batchlist">
+    <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage" search :data="department">
 
       <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
 
@@ -69,7 +69,7 @@
         <!-- ITEMS PER PAGE -->
         <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 mr-4 items-per-page-handler">
           <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
-            <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ batchlist.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : batchlist.length }} of {{ queriedItems }}</span>
+            <span class="mr-2">{{ currentPage * itemsPerPage - (itemsPerPage - 1) }} - {{ department.length - currentPage * itemsPerPage > 0 ? currentPage * itemsPerPage : department.length }} of {{ queriedItems }}</span>
             <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
           </div>
           <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
@@ -92,9 +92,8 @@
       </div>
 
       <template slot="thead">
-        <vs-th sort-key="id">Batch ID</vs-th>
-        <vs-th sort-key="date">Creation Date</vs-th>
-        <vs-th sort-key="label">Batch Label</vs-th>
+        <vs-th sort-key="id">department ID</vs-th>
+        <vs-th sort-key="date">department Name</vs-th>
         <vs-th>Action</vs-th>
       </template>
 
@@ -106,12 +105,9 @@
                 <p class="product-name font-medium">#{{ tr.id }}</p>
               </vs-td>
 
-              <vs-td>
-                <p class="product-name font-medium">{{ tr.date }}</p>
-              </vs-td>
 
               <vs-td>
-                <p class="product-price">{{ tr.label }}</p>
+                <p class="product-price">{{ tr.name }}</p>
               </vs-td>
 
               <vs-td class="whitespace-no-wrap">
@@ -139,9 +135,7 @@ export default {
   data () {
     return {
       selected: [],
-      batchlist: [],
       department: [],
-      organisation: [],
       itemsPerPage: 5,
       isMounted: false,
 
@@ -153,9 +147,7 @@ export default {
   beforeMount() {
 		axios.get('https://langaj.chronicstone.online/settings/')
 			 .then(response => {
-				 this.batchlist = response.data.settings.batch
 				 this.department = response.data.settings.department
-				 this.organisation = response.data.settings.organisation
 			 })
 	},
   computed: {
@@ -166,7 +158,7 @@ export default {
       return 0
     },
     queriedItems () {
-      return this.$refs.table ? this.$refs.table.queriedResults.length : this.batchlist.length
+      return this.$refs.table ? this.$refs.table.queriedResults.length : this.department.length
     }
   },
   methods: {
@@ -221,7 +213,7 @@ export default {
     ReloadAPIData() {
       axios.get('https://langaj.chronicstone.online/settings/')
 			 .then(response => {
-				 this.batchlist = response.data.settings.batch
+				 this.department = response.data.settings.department
        })
     },
   },

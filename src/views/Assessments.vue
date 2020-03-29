@@ -102,7 +102,7 @@
         </template>
 
         <template slot-scope="{data}">
-          <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
+          <vs-tr :data="tr" v-for="(tr, indextr) in data" :key="indextr">
             <vs-td :data="data[indextr].last" style="width:15%;">
               {{data[indextr].first_name}}
               {{data[indextr].last_name}}

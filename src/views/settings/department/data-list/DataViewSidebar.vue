@@ -21,7 +21,7 @@
       <div class="p-6">
 
         <!-- ORDER STATUS -->
-        <vs-input label="Organisation name" v-model="dataName" class="mt-5 w-full" name="item-name"/>
+        <vs-input label="Department name" v-model="dataName" class="mt-5 w-full" name="item-name"/>
 
       </div>
     </component>
@@ -110,11 +110,11 @@ export default {
           }
 
           if (this.dataState ==='edit') {
-            // Script edit organisation
+            // Script edit department
               var url='https://langaj.chronicstone.online/settings/'
               var data = {
                   request:2,
-                  type:'organisation',
+                  type:'department',
                   id:obj.id,
                   name:obj.name,
               }
@@ -140,11 +140,11 @@ export default {
                     })
                 });
           } else {
-            // Script create organisation
+            // Script create department
             var url='https://langaj.chronicstone.online/settings/'
             var data = {
                 request:1,
-                type:'organisation',
+                type:'department',
                 date:obj.date,
                 name:obj.name,
             }

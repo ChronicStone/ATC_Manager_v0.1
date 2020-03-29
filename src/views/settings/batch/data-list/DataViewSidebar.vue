@@ -59,20 +59,6 @@ export default {
       dataLabel: null,
       dataState:'create',
       request: 0,
-
-      category_choices: [
-        {text:'Audio', value:'audio'},
-        {text:'Computers', value:'computers'},
-        {text:'Fitness', value:'fitness'},
-        {text:'Appliance', value:'appliance'}
-      ],
-
-      order_status_choices: [
-        {text:'Pending', value:'pending'},
-        {text:'Canceled', value:'canceled'},
-        {text:'Delivered', value:'delivered'},
-        {text:'On Hold', value:'on_hold'}
-      ],
       settings: { // perfectscrollbar settings
         maxScrollbarLength: 60,
         wheelSpeed: .60
@@ -116,7 +102,7 @@ export default {
       this.dataId = null
       this.dataDate = new Date()
       this.dataDate = this.dataDate.getFullYear()+'-'+(this.dataDate.getMonth()+1)+'-'+this.dataDate.getDate()
-      this.dataLabel = '-'
+      this.dataLabel = ''
       this.dataState = 'create'
 
     },

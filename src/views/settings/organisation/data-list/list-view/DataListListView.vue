@@ -60,9 +60,9 @@
           </vs-dropdown>
 
           <!-- ADD NEW -->
-          <div class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-primary border border-solid border-primary" @click="addNewData()">
+          <div class="btn-add-new p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-center text-lg font-medium text-base text-warning border border-solid border-warning" @click="addNewData()">
               <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
-              <span class="ml-2 text-base text-primary">Add New</span>
+              <span class="ml-2 text-base text-warning">Add New</span>
           </div>
         </div>
 
@@ -92,10 +92,8 @@
       </div>
 
       <template slot="thead">
-        <vs-th sort-key="id">Batch ID</vs-th>
-        <vs-th sort-key="date">Batch Date</vs-th>
-        <vs-th sort-key="label">Batch Label</vs-th>
-        <vs-th sort-key="date">Batch status</vs-th>
+        <vs-th sort-key="id">Organisation ID</vs-th>
+        <vs-th sort-key="date">Organisation Name</vs-th>
         <vs-th>Action</vs-th>
       </template>
 
@@ -107,17 +105,9 @@
                 <p class="product-name font-medium">#{{ tr.id }}</p>
               </vs-td>
 
-              <vs-td>
-                <p class="product-name font-medium">{{ tr.date }}</p>
-              </vs-td>
 
               <vs-td>
-                <p class="product-price">{{ tr.label }}</p>
-              </vs-td>
-
-              <vs-td>
-                <vs-chip v-if="setStatusBatch('active', tr.date)" color="success" class="product-order-status">Active</vs-chip>
-                <vs-chip v-if="!setStatusBatch('finished', tr.date)" color="danger" class="product-order-status">Finished</vs-chip>
+                <p class="product-price">{{ tr.name }}</p>
               </vs-td>
 
               <vs-td class="whitespace-no-wrap">
@@ -223,7 +213,7 @@ export default {
     ReloadAPIData() {
       axios.get('https://langaj.chronicstone.online/settings/')
 			 .then(response => {
-				 this.organisation = response.data.settings.batch
+				 this.organisation = response.data.settings.organisation
        })
     },
   },
