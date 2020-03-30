@@ -19,37 +19,36 @@
             <div class="vx-col flex-1" id="account-info-col-1">
                 <table >
                     <tr>
-                        <td class="font-semibold pb-3">First name</td>
-                        <td class="pb-3 pl-16 right">{{ userData.first_name }}</td>
+                        <td class="font-semibold pb-3 w-1/2 pt-3">First name</td>
+                        <td class="pb-3 pl-20 right w-full">{{ userData.first_name }}</td>
                     </tr>
                     <tr>
-                        <td class="font-semibold pb-3">Last name</td>
-                        <td class="pb-3 pl-16">{{ userData.last_name }}</td>
+                        <td class="font-semibold pb-3 w-1/2">Last name</td>
+                        <td class="pb-3 pl-20 w-full">{{ userData.last_name }}</td>
                     </tr>
                     <tr>
-                        <td class="font-semibold pb-3">Other name</td>
-                        <td v-if="checkDataContent(userData.other_name)" class="pb-3 pl-16"><i>Not specified</i></td>
-                        <td v-else class="pb-3 pl-16">{{ userData.other_name }}</td>
+                        <td class="font-semibold pb-3 w-1/2">Other name</td>
+                        <td v-if="checkDataContent(userData.other_name)" class="pb-3 pl-20"><i>Not specified</i></td>
+                        <td v-else class="pb-3 pl-20 w-full">{{ userData.other_name }}</td>
                     </tr>
                 </table>
             </div>
             <!-- /Information - Col 1 -->
-
             <!-- Information - Col 2 -->
-            <div class="vx-col flex-1" id="account-info-col-2">
+            <div class="vx-col flex-1 border border-warning mr-8 pl-12 pt-3" style="border-left:1px solid black" id="account-info-col-2">
                 <table>
                 <tr>
-                    <td class="font-semibold  pb-3">Mail address</td>
-                    <td v-if="checkDataContent(userData.mail)" class="pb-3 pl-16"><i>Not specified</i></td>
-                    <td v-else class="pb-3 pl-16">{{userData.mail}}</td>
+                    <td class="font-semibold w-1/2 pb-3">Mail address</td>
+                    <td v-if="checkDataContent(userData.mail)" class="pb-3 pl-20 w-full"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-20 w-full">{{userData.mail}}</td>
                 <tr>
-                    <td class="font-semibold pb-3">Mobile phone</td>
-                    <td v-if="checkDataContent(userData.mobile_phone_number)" class="pb-3 pl-16"><i>Not specified</i></td>
-                    <td v-else class="pb-3 pl-16">{{userData.mobile_phone_number|phone}}</td>  
+                    <td class="font-semibold pb-3 w-1/2">Mobile phone</td>
+                    <td v-if="checkDataContent(userData.mobile_phone_number)" class="pb-3 pl-20 w-full"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-20 w-full">{{userData.mobile_phone_number|phone}}</td>  
                 <tr>
-                    <td class="font-semibold pb-3">Other phone</td>
-                    <td v-if="checkDataContent(userData.other_phone_number)" class="pb-3 pl-16"><i>Not specified</i></td>
-                    <td v-else class="pb-3 pl-16">{{userData.other_phone_number}}</td>
+                    <td class="font-semibold pb-3 w-1/2">Other phone</td>
+                    <td v-if="checkDataContent(userData.other_phone_number)" class="pb-3 pl-20 w-full"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-20 w-full">{{userData.other_phone_number}}</td>
                 </tr>
                 </table>
             </div>
@@ -70,43 +69,43 @@
                 <table>
                 <tr>
                     <td class="font-semibold pb-3">Mail address</td>
-                    <td v-if="checkDataContent(userData.mail)" class="pb-3 pl-16"><i>Not specified</i></td>
-                    <td v-else class="pb-3 pl-16">{{ userData.mail }}</td>
+                    <td v-if="checkDataContent(userData.mail)" class="pb-3 pl-20"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-20">{{ userData.mail }}</td>
                 </tr>
                 <tr>
                     <td class="font-semibold pb-3">Mobile phone</td>
-                    <td v-if="checkDataContent(userData.mobile_phone_number)" class="pb-3 pl-16"><i>Not specified</i></td>
-                    <td v-else class="pb-3 pl-16">{{ userData.mobile_phone_number|phone }}</td>
+                    <td v-if="checkDataContent(userData.mobile_phone_number)" class="pb-3 pl-20"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-20">{{ userData.mobile_phone_number|phone }}</td>
                 </tr>
                 <tr>
                     <td class="font-semibold pb-3">Other phone</td>
-                    <td v-if="checkDataContent(userData.other_phone_number)" class="pb-3 pl-16"><i>Not specified</i></td>
-                    <td class="pb-3 pl-16">{{ userData.other_phone_number }}</td>
+                    <td v-if="checkDataContent(userData.other_phone_number)" class="pb-3 pl-20"><i>Not specified</i></td>
+                    <td class="pb-3 pl-20">{{ userData.other_phone_number }}</td>
                 </tr>
                 <tr>
                     <td class="font-semibold pb-3">Address</td>
-                    <td v-if="checkDataContent(userData.adress)" class="pb-3 pl-16"><i>Not specified</i></td>
-                    <td v-else class="pb-3 pl-16">{{ userData.adress}}</td>
+                    <td v-if="checkDataContent(userData.adress)" class="pb-3 pl-20"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-20">{{ userData.adress}}</td>
                 </tr>
                 <tr>
                     <td class="font-semibold pb-3">Additionnal address</td>
-                    <td v-if="checkDataContent(userData.adress2)" class="pb-3 pl-16"><i>Not specified</i></td>
-                    <td v-else class="pb-3 pl-16">{{ userData.adress2 }}</td>
+                    <td v-if="checkDataContent(userData.adress2)" class="pb-3 pl-20"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-20">{{ userData.adress2 }}</td>
                 </tr>
                 <tr>
                     <td class="font-semibold pb-3">Zip code</td>
-                    <td v-if="checkDataContent(userData.zip_code)" class="pb-3 pl-16"><i>Not specified</i></td>
-                    <td class="pb-3 pl-16">{{ userData.zip_code }}</td>
+                    <td v-if="checkDataContent(userData.zip_code)" class="pb-3 pl-20"><i>Not specified</i></td>
+                    <td class="pb-3 pl-20">{{ userData.zip_code }}</td>
                 </tr>                
                 <tr>
                     <td class="font-semibold pb-3">City</td>
-                    <td v-if="checkDataContent(userData.city)" class="pb-3 pl-16"><i>Not specified</i></td>
-                    <td v-else class="pb-3 pl-16">{{ userData.city|uppercase }}</td>
+                    <td v-if="checkDataContent(userData.city)" class="pb-3 pl-20"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-20">{{ userData.city|uppercase }}</td>
                 </tr>                
                 <tr>
                     <td class="font-semibold pb-3">Country</td>
-                    <td v-if="checkDataContent(userData.country)" class="pb-3 pl-16"><i>Not specified</i></td>
-                    <td v-else class="pb-3 pl-16">{{ userData.country }}</td>
+                    <td v-if="checkDataContent(userData.country)" class="pb-3 pl-20"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-20">{{ userData.country }}</td>
                 </tr>
                 </table>
             </vx-card>
@@ -114,86 +113,58 @@
             </div>
 
             <div class="vx-col lg:w-1/4 w-full">
-                <vx-card title="Social Links" class="mb-base">
+                <vx-card title="Identity" class="mb-base">
                     <table>
                         <tr>
-                            <td class="font-semibold pb-3">Birth date</td>
-                            <td v-if="checkDataContent(userData.birth_date)" class="pb-3 pl-16"><i>Not specified</i></td>
-                            <td class="pb-3 pl-16">{{userData.birth_date|formatDate}}</td>
+                            <td class="font-semibold pb-3 pt-2 w-full">Birth date</td>
+                            <td v-if="checkDataContent(userData.birth_date)" class="pb-3 pl-20 pt-2"><i>Not specified</i></td>
+                            <td v-else class="pb-3 pl-16 pt-2 w-full">{{userData.birth_date|formatDate}}</td>
                         </tr>
-                        <tr>
-                            <td class="font-semibold pb-3">CodePen</td>
-                            <td class="pb-3 pl-16">XXXXXXX</td>
-                        </tr>                        
-                        <tr>
-                            <td class="font-semibold pb-3">Github</td>
-                            <td class="pb-3 pl-16">XXXXXXX</td>
+                        <tr >
+                            <td class="font-semibold pb-3 pt-6 w-full">ID Doc. type</td>
+                            <td v-if="checkDataContent(userData.birth_date)" class="pb-3 pl-22 w-full pt-6"><i>Not specified</i></td>
+                            <td v-else class="pb-3 pt-6 pl-16"><span class="w-full">{{userData.ID_doc_type}}</span></td>
                         </tr>
-                        <tr>
-                            <td class="font-semibold pb-3">CodePen</td>
-                            <td class="pb-3 pl-16">XXXXXXX</td>
-                        </tr>                        
-                        <tr>
-                            <td class="font-semibold pb-3">Github</td>
-                            <td class="pb-3 pl-16">XXXXXXX</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold pb-3">CodePen</td>
-                            <td class="pb-3 pl-16">XXXXXXX</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold pb-3">Github</td>
-                            <td class="pb-3 pl-16">XXXXXXX</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold pb-3">CodePen</td>
-                            <td class="pb-3 pl-1
-                            ">XXXXXXX</td>
+                        <tr >
+                            <td class="font-semibold pb-3 pt-6 w-full">ID Number </td>
+                            <td v-if="checkDataContent(userData.ID_doc_number)" class="pb-3 pl-22 w-full pt-6"><i>Not specified</i></td>
+                            <td v-else class="pb-3 pt-6 pl-16"><span class="w-full">{{userData.ID_doc_number}}</span></td>
                         </tr>
                     </table>
+                    <vs-divider></vs-divider>
+                    <table>
+                        <tr>
+                            <td class="font-semibold pb-3 w-full">File name</td>
+                            <td v-if="checkDataContent(userData.id_doc)" class="pb-3 pl-20 w-full"><i>?</i></td>
+                            <td v-else class="pb-3 pl-20 w-full">{{userData.id_doc}}</td>
+                        </tr>
+                        <tr >
+                        </tr>
+                    </table>
+                    <vs-button class="w-full mt-2" disabled>Download file</vs-button>
                 </vx-card>
-            </div>
+            </div>            
             <div class="vx-col lg:w-1/4 w-full">
-                <vx-card title="Social Links" class="mb-base">
+                <vx-card title="Affiliation" class="mb-base">
                     <table>
                         <tr>
-                            <td class="font-semibold pb-3">Birth date</td>
-                            <td v-if="checkDataContent(userData.birth_date)" class="pb-3 pl-16"><i>Not specified</i></td>
-                            <td class="pb-3 pl-16">{{userData.birth_date|formatDate}}</td>
+                            <td class="font-semibold pb-3 pt-2 w-1/2">Organisation</td>
+                            <td v-if="checkDataContent(userData.organisation)" class="pb-3 pl-16 pt-2 w-full"><i>Not specified</i></td>
+                            <td v-else class="pb-3 pl-16 pt-2 w-full">{{userData.birth_date|formatDate}}</td>
                         </tr>
-                        <tr>
-                            <td class="font-semibold pb-3">CodePen</td>
-                            <td class="pb-3 pl-16">XXXXXXX</td>
-                        </tr>                        
-                        <tr>
-                            <td class="font-semibold pb-3">Github</td>
-                            <td class="pb-3 pl-16">XXXXXXX</td>
+                        <tr >
+                            <td class="font-semibold pb-3 pt-6 w-1/2">Department</td>
+                            <td v-if="checkDataContent(userData.organisation)" class="pb-3 pl-16 w-full pt-6"><i>Not specified</i></td>
+                            <td v-else class="pb-3 pt-6 pl-16 w-full"><span class="w-full">{{userData.ID_doc_type}}</span></td>
                         </tr>
-                        <tr>
-                            <td class="font-semibold pb-3">CodePen</td>
-                            <td class="pb-3 pl-16">XXXXXXX</td>
-                        </tr>                        
-                        <tr>
-                            <td class="font-semibold pb-3">Github</td>
-                            <td class="pb-3 pl-16">XXXXXXX</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold pb-3">CodePen</td>
-                            <td class="pb-3 pl-16">XXXXXXX</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold pb-3">Github</td>
-                            <td class="pb-3 pl-16">XXXXXXX</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold pb-3">CodePen</td>
-                            <td class="pb-3 pl-1
-                            ">XXXXXXX</td>
+                        <tr >
+                            <td class="font-semibold pb-3 pt-6 w-1/2"></td>
+                            <td v-if="checkDataContent(userData.organisation)" class="pb-3 pl-16 w-full pt-6"><i></i></td>
+                            <td v-else class="pb-3 pt-6 pl-16"><span class="w-full"></span></td>
                         </tr>
                     </table>
                 </vx-card>
             </div>
-
         </div>
 
         <vx-card class="overflow-auto" style="overflow:scroll;">
@@ -388,7 +359,7 @@ export default {
             if(obj == null || obj == '') {
                 return true
             }
-        }
+        },
     },
     
 }
@@ -413,7 +384,6 @@ export default {
 	padding-bottom: .8rem;
 	word-break: break-all;
 }
-
 tr {
     top:50px;
 }
