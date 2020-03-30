@@ -59,7 +59,12 @@
                             </ValidationProvider>
                         </div>
                         <div class="vx-col sm:w-1/2 w-full mt-3 mb-2">
-                            <datepicker class="mt-2" v-model="formInputs.birth_date" placeholder="Select Birth Date"></datepicker>
+                            <ValidationProvider name="Birth date" :rules="{ required: true }" v-slot="{ errors }">
+                                <datepicker class="mt-2" v-model="formInputs.birth_date" placeholder="Select Birth Date"></datepicker>
+                                <vs-alert v-if="errors[0] != null" color="danger" icon-pack="feather" icon="icon-info" class="mt-2 p-0"> 
+                                    <span>{{ errors[0] }}</span>
+                                </vs-alert>
+                            </ValidationProvider>
                         </div>
                     </div>
                     <div class="vx-row">
