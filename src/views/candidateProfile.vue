@@ -3,7 +3,7 @@
         <vx-card  class="mb-base">
             <div class="flex justify-between mb-5 mt-0">
                 <h3>Candidate profile</h3>
-                <span v-if="userData.date_update != null" class="mt-1 text-success"><i>Last update : {{userData.date_update}}</i></span>
+                <span v-if="userData.date_update != null" class="mt-1 text-success"><i>Last update : {{userData.date_update|formatDate}}</i></span>
             </div>
             <!-- Avatar -->
             <div class="vx-row">
@@ -11,7 +11,7 @@
             <!-- Avatar Col -->
             <div class="vx-col" id="avatar-col">
                 <div class="img-container mb-4">
-                    <img :src="userData.test_taker_photo" class="rounded w-full h-auto" />
+                    <avatar :size="100" class="rounded" :src="userData.test_taker_photo" :username="userData.first_name+' '+userData.last_name"></avatar>
                 </div>
             </div>
 
@@ -20,15 +20,16 @@
                 <table >
                     <tr>
                         <td class="font-semibold pb-3">First name</td>
-                        <td class="pb-3 pl-16">{{ userData.first_name }}</td>
+                        <td class="pb-3 pl-16 right">{{ userData.first_name }}</td>
                     </tr>
                     <tr>
                         <td class="font-semibold pb-3">Last name</td>
                         <td class="pb-3 pl-16">{{ userData.last_name }}</td>
                     </tr>
                     <tr>
-                        <td class="font-semibold pb-3">Email</td>
-                        <td class="pb-3 pl-16">{{ userData.mail }}</td>
+                        <td class="font-semibold pb-3">Other name</td>
+                        <td v-if="checkDataContent(userData.other_name)" class="pb-3 pl-16"><i>Not specified</i></td>
+                        <td v-else class="pb-3 pl-16">{{ userData.other_name }}</td>
                     </tr>
                 </table>
             </div>
@@ -38,16 +39,17 @@
             <div class="vx-col flex-1" id="account-info-col-2">
                 <table>
                 <tr>
-                    <td class="font-semibold  pb-3">Status</td>
-                    <td class="pb-3 pl-16">{</td>
-                </tr>
+                    <td class="font-semibold  pb-3">Mail address</td>
+                    <td v-if="checkDataContent(userData.mail)" class="pb-3 pl-16"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-16">{{userData.mail}}</td>
                 <tr>
-                    <td class="font-semibold pb-3">Role</td>
-                    <td class="pb-3 pl-16"></td>
-                </tr>
+                    <td class="font-semibold pb-3">Mobile phone</td>
+                    <td v-if="checkDataContent(userData.mobile_phone_number)" class="pb-3 pl-16"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-16">{{userData.mobile_phone_number|phone}}</td>  
                 <tr>
-                    <td class="font-semibold pb-3">Company</td>
-                    <td class="pb-3 pl-16"></td>
+                    <td class="font-semibold pb-3">Other phone</td>
+                    <td v-if="checkDataContent(userData.other_phone_number)" class="pb-3 pl-16"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-16">{{userData.other_phone_number}}</td>
                 </tr>
                 </table>
             </div>
@@ -64,66 +66,134 @@
 
         <div class="vx-row">
             <div class="vx-col lg:w-1/2 w-full">
-            <vx-card title="Information" class="mb-base">
+            <vx-card title="Informations" class="mb-base">
                 <table>
                 <tr>
-                    <td class="font-semibold pb-3">Birth Date</td>
-                    <td class="pb-3 pl-16">{{ userData.birth_date }}</td>
+                    <td class="font-semibold pb-3">Mail address</td>
+                    <td v-if="checkDataContent(userData.mail)" class="pb-3 pl-16"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-16">{{ userData.mail }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold pb-3">Mobile</td>
-                    <td class="pb-3 pl-16">{{ userData.mobile_phone_number }}</td>
+                    <td class="font-semibold pb-3">Mobile phone</td>
+                    <td v-if="checkDataContent(userData.mobile_phone_number)" class="pb-3 pl-16"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-16">{{ userData.mobile_phone_number|phone }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold pb-3">Website</td>
-                    <td class="pb-3 pl-16">{{ userData.mobile_phone_number }}</td>
+                    <td class="font-semibold pb-3">Other phone</td>
+                    <td v-if="checkDataContent(userData.other_phone_number)" class="pb-3 pl-16"><i>Not specified</i></td>
+                    <td class="pb-3 pl-16">{{ userData.other_phone_number }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold pb-3">Languages</td>
-                    <td class="pb-3 pl-16">{{ userData.mother_tongue}}</td>
+                    <td class="font-semibold pb-3">Address</td>
+                    <td v-if="checkDataContent(userData.adress)" class="pb-3 pl-16"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-16">{{ userData.adress}}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold pb-3">Gender</td>
-                    <td class="pb-3 pl-16">{{ userData.gender }}</td>
+                    <td class="font-semibold pb-3">Additionnal address</td>
+                    <td v-if="checkDataContent(userData.adress2)" class="pb-3 pl-16"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-16">{{ userData.adress2 }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold pb-3">Contact</td>
-                    <td class="pb-3 pl-16">{{ userData.mail }}</td>
+                    <td class="font-semibold pb-3">Zip code</td>
+                    <td v-if="checkDataContent(userData.zip_code)" class="pb-3 pl-16"><i>Not specified</i></td>
+                    <td class="pb-3 pl-16">{{ userData.zip_code }}</td>
+                </tr>                
+                <tr>
+                    <td class="font-semibold pb-3">City</td>
+                    <td v-if="checkDataContent(userData.city)" class="pb-3 pl-16"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-16">{{ userData.city|uppercase }}</td>
+                </tr>                
+                <tr>
+                    <td class="font-semibold pb-3">Country</td>
+                    <td v-if="checkDataContent(userData.country)" class="pb-3 pl-16"><i>Not specified</i></td>
+                    <td v-else class="pb-3 pl-16">{{ userData.country }}</td>
                 </tr>
                 </table>
             </vx-card>
+            
             </div>
 
-            <div class="vx-col lg:w-1/2 w-full">
-            <vx-card title="Social Links" class="mb-base">
-                <table>
-                <tr>
-                    <td class="font-semibold pb-3">Twitter</td>
-                    <td class="pb-3 pl-16">XXXXXXX</td>
-                </tr>
-                <tr>
-                    <td class="font-semibold pb-3">Facebook</td>
-                    <td class="pb-3 pl-16">XXXXXXX</td>
-                </tr>
-                <tr>
-                    <td class="font-semibold pb-3">Instagram</td>
-                    <td class="pb-3 pl-16">XXXXXXX</td>
-                </tr>
-                <tr>
-                    <td class="font-semibold pb-3">Github</td>
-                    <td class="pb-3 pl-16">XXXXXXX</td>
-                </tr>
-                <tr>
-                    <td class="font-semibold pb-3">CodePen</td>
-                    <td class="pb-3 pl-16">XXXXXXX</td>
-                </tr>
-                <tr>
-                    <td class="font-semibold pb-3">Slack</td>
-                    <td class="pb-3 pl-16">XXXXXXX</td>
-                </tr>
-                </table>
-            </vx-card>
+            <div class="vx-col lg:w-1/4 w-full">
+                <vx-card title="Social Links" class="mb-base">
+                    <table>
+                        <tr>
+                            <td class="font-semibold pb-3">Birth date</td>
+                            <td v-if="checkDataContent(userData.birth_date)" class="pb-3 pl-16"><i>Not specified</i></td>
+                            <td class="pb-3 pl-16">{{userData.birth_date|formatDate}}</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold pb-3">CodePen</td>
+                            <td class="pb-3 pl-16">XXXXXXX</td>
+                        </tr>                        
+                        <tr>
+                            <td class="font-semibold pb-3">Github</td>
+                            <td class="pb-3 pl-16">XXXXXXX</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold pb-3">CodePen</td>
+                            <td class="pb-3 pl-16">XXXXXXX</td>
+                        </tr>                        
+                        <tr>
+                            <td class="font-semibold pb-3">Github</td>
+                            <td class="pb-3 pl-16">XXXXXXX</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold pb-3">CodePen</td>
+                            <td class="pb-3 pl-16">XXXXXXX</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold pb-3">Github</td>
+                            <td class="pb-3 pl-16">XXXXXXX</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold pb-3">CodePen</td>
+                            <td class="pb-3 pl-1
+                            ">XXXXXXX</td>
+                        </tr>
+                    </table>
+                </vx-card>
             </div>
+            <div class="vx-col lg:w-1/4 w-full">
+                <vx-card title="Social Links" class="mb-base">
+                    <table>
+                        <tr>
+                            <td class="font-semibold pb-3">Birth date</td>
+                            <td v-if="checkDataContent(userData.birth_date)" class="pb-3 pl-16"><i>Not specified</i></td>
+                            <td class="pb-3 pl-16">{{userData.birth_date|formatDate}}</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold pb-3">CodePen</td>
+                            <td class="pb-3 pl-16">XXXXXXX</td>
+                        </tr>                        
+                        <tr>
+                            <td class="font-semibold pb-3">Github</td>
+                            <td class="pb-3 pl-16">XXXXXXX</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold pb-3">CodePen</td>
+                            <td class="pb-3 pl-16">XXXXXXX</td>
+                        </tr>                        
+                        <tr>
+                            <td class="font-semibold pb-3">Github</td>
+                            <td class="pb-3 pl-16">XXXXXXX</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold pb-3">CodePen</td>
+                            <td class="pb-3 pl-16">XXXXXXX</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold pb-3">Github</td>
+                            <td class="pb-3 pl-16">XXXXXXX</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold pb-3">CodePen</td>
+                            <td class="pb-3 pl-1
+                            ">XXXXXXX</td>
+                        </tr>
+                    </table>
+                </vx-card>
+            </div>
+
         </div>
 
         <vx-card class="overflow-auto" style="overflow:scroll;">
@@ -188,12 +258,15 @@
 import axios from "axios";
 import vSelect from 'vue-select'
 import Datepicker from 'vuejs-datepicker';
+import Avatar from 'vue-avatar'
+
 
 
 export default {
     components: {
         'v-select': vSelect,
-        Datepicker
+        Datepicker,
+        Avatar
     },
     beforeCreate: function () {
         if(!this.$session.exists()) {
@@ -310,6 +383,11 @@ export default {
             if(this.userData.date_update != '') {
                 return 'Last edit : ' + this.userData.date_update
             }
+        },
+        checkDataContent(obj) {
+            if(obj == null || obj == '') {
+                return true
+            }
         }
     },
     
@@ -317,6 +395,10 @@ export default {
 </script>
 
 <style scoped>
+.text-grey {
+    color:rgb(185, 185, 185);
+}
+
 #avatar-col {
 	width: 10rem;
 }

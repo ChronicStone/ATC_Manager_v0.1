@@ -105,6 +105,7 @@ export default{
                 this.$session.start()
                 this.$session.set('user', result[0].username)
                 this.$session.set('session_id', result[0].session_id)
+                this.$session.set('account_id', result[0].id)
                 this.$session.set('fname', result[0].first_name)
                 this.$session.set('lname', result[0].last_name)
                 this.$session.set('avatar', result[0].avatar)

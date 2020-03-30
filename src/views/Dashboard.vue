@@ -1,7 +1,7 @@
 <template>
 	<vx-card ref="filterCard" title="Filters" class="user-list-filters mb-8" collapseAction>
       <div class="vx-row p-4">
-		    <form class="ml-1 w-full">
+		    <!-- <form class="ml-1 w-full">
           <div class="vx-row">
             <div class="vx-col sm:w-1/2 w-full mb-2">
                 <input type="file" name="photoID" ref="photoID" id="file" v-on:change="handleFileUpload()"/>
@@ -15,17 +15,94 @@
                 <vs-button color="warning" type="border" class="mb-2" @click="form.input=''">Reset</vs-button>
             </div>
           </div>
-		    </form>
+		    </form> -->
+        <div id="app">
+          
 
+        <vs-button @click="popupActive=true" color="primary" type="border">Open Default popup</vs-button>
+
+        <vs-popup class="holamundo" title="Image sizing" :active.sync="popupActive">
+          <vue-avatar
+            :width="width"
+            :height="height"
+            :rotation="rotation"
+            :scale="scale"
+            ref="vueavatar"
+            class="flex justify-center"
+            @vue-avatar-editor:image-ready="onImageReady">
+          </vue-avatar>
+          <br/>
+
+          <div class="w-full mt-4 flex justify-center">
+            <label ckass="w-1/2 pt-4">Set scale</label>
+            <vs-slider class="w-1/2 ml-8 bg-success rounded" color="success" v-model="scale"/>
+          </div>
+          <br/>
+          <div class="w-full mt-4 flex justify-center">
+            <label ckass="w-1/2 pt-4">Set rotation</label>
+            <vs-slider class="w-1/2 ml-8 bg-success rounded" color="success" v-model="rotation"/>
+          </div>
+          <br>
+          <vs-button class="w-1/2" style="margin-left:25%;" v-on:click="saveClicked">Resize and save</vs-button>
+        </vs-popup>
+
+        <vs-button @click="popupActive2=true" color="primary" type="border">Open Default popup</vs-button>
+        <vs-popup class="holamundo" title="Image sizing" :active.sync="popupActive2">
+          <vue-avatar
+            :width="width"
+            :height="height"
+            :rotation="rotation"
+            :scale="scale"
+            ref="vueavatar"
+            class="flex justify-center"
+            @vue-avatar-editor:image-ready="onImageReady">
+          </vue-avatar>
+          <br/>
+
+          <div class="w-full mt-4 flex justify-center">
+            <label ckass="w-1/2 pt-4">Set scale</label>
+            <vs-slider class="w-1/2 ml-8 bg-success rounded" color="success" v-model="scale"/>
+          </div>
+          <br/>
+          <div class="w-full mt-4 flex justify-center">
+            <label ckass="w-1/2 pt-4">Set rotation</label>
+            <vs-slider class="w-1/2 ml-8 bg-success rounded" color="success" v-model="rotation"/>
+          </div>
+          <br>
+          <vs-button class="w-1/2" style="margin-left:25%;" v-on:click="saveClicked">Resize and save</vs-button>
+        </vs-popup>
+
+        <br/>
+        <avatar size="100" class="mt-8 rounded" :username="name+' '+name2"></avatar>
+
+        </div>
       </div>
     </vx-card>
 </template>
 
 <script>
+
+import {VueAvatar, VueAvatarScale} from 'vue-avatar-editor-improved'
+import Avatar from 'vue-avatar'
+
 export default {
+  components: {
+    VueAvatarScale,
+    VueAvatar,
+    Avatar
+  },
   data() {
     return {
-      file:''
+      file1:'',
+      width:200,
+      height:200,
+      rotation: 0,
+      scale: 1,
+      borderRadius: 0,
+      popupActive:false,
+      popupActive2:false,
+      name: "cyp",
+      name2: "thao"
     }
   },
   beforeCreate: function() {
@@ -34,27 +111,16 @@ export default {
     }
   },
   methods: {
-    submitForm(){
-          let formData = new FormData();
-          formData.append('file', this.file);
-
-          this.axios.post('http://localhost:8000/api.php',
-              formData,
-              {
-              headers: {
-                  'Content-Type': 'multipart/form-data'
-              }
-            }
-          ).then(function(data){
-            console.log(data.data);
-          })
-          .catch(function(){
-            console.log('FAILURE!!');
-          });
+    saveClicked: function saveClicked() {
+      if(this.$refs.vueavatar.getImageScaled() != null) {
+        var img = this.$refs.vueavatar.getImageScaled();
+        this.file1 = img.toDataURL()
+        this.$refs.image.src = img.toDataURL()
+      }
     },
-
-    onChangeFileUpload(){
-      this.file = this.$refs.file.files[0];
+    onImageReady: function onImageReady() {
+        this.scale = 1;
+        this.rotation = 0;
     }
   }
 }

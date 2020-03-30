@@ -70,6 +70,9 @@ Vue.use(VueHammer)
 import 'prismjs'
 import 'prismjs/themes/prism-tomorrow.css'
 
+// Filters import
+import './globalContent/filters.js';
+
 
 // Feather font icon
 require('./assets/css/iconfont.css')
@@ -80,7 +83,6 @@ import '@/assets/css/style.css'
 // Vue select css
 // Note: In latest version you have to add it separately
 // import 'vue-select/dist/vue-select.css';
-
 
 Vue.config.productionTip = false
 

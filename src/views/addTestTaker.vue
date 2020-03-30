@@ -174,6 +174,7 @@ export default {
         isMounted:false,
         listCountries:[],        
         listLanguages:[],
+        copyUserData:[],
         nationality:[
             {id : 0, label:'French'},
             {id : 1, label:'English'},
@@ -214,6 +215,7 @@ export default {
             id_doc : '',
             user_photo : '',
             last_update: null,
+            created_by: null,
         }
     }),
     beforeCreate: function () {
@@ -229,7 +231,10 @@ export default {
                 for(var i = 0; i < response.data.length; i++) {
                     this.listCountries[i] = {'id' : i, 'label' : response.data[i].name}
                 }
-                if(this.$route.params.id  == null) {this.isMounted = true}
+                if(this.$route.params.id  == null) {
+                    this.isMounted = true
+                    this.formInputs.created_by = this.$session.get('account_id')
+                }
             })
         if(this.$route.params.id != null) {
             this.formInputs.request = 2
@@ -237,6 +242,7 @@ export default {
             axios.get('https://langaj.chronicstone.online/test-taker/get/index.php?id=' + this.$route.params.id)
                  .then(response => {
                      var userData = response.data.data[0]
+                     this.copyUserData = userData
                      this.formInputs.candidate_id = userData.id
                      this.formInputs.first_name = userData.first_name
                      this.formInputs.last_name = userData.last_name
@@ -323,10 +329,21 @@ export default {
             if (err[0] != null) return 'danger'
         },
         setFinalValue() {
-            this.formInputs.country = this.formInputs.country.label
-            this.formInputs.mother_tongue = this.formInputs.mother_tongue.label
-            this.formInputs.nationality = this.formInputs.nationality.label
-            this.formInputs.id_doc_type = this.formInputs.id_doc_type.label
+            // Si on est en création de l'user, on réassocie les champs des sélecteurs aux bonnes données
+            if(this.$route.params.id == 0) {
+                this.formInputs.country = this.formInputs.country.label
+                this.formInputs.mother_tongue = this.formInputs.mother_tongue.label
+                this.formInputs.nationality = this.formInputs.nationality.label
+                this.formInputs.id_doc_type = this.formInputs.id_doc_type.label
+            }
+            // Si les données des selecteurs sont changées on les update, sinon on laisse tel quel
+            else {
+                if(this.formInputs.country != this.copyUserData.country) {this.formInputs.country = this.formInputs.country.label}
+                if(this.formInputs.mother_tongue != this.copyUserData.mother_tongue) {this.formInputs.mother_tongue = this.formInputs.mother_tongue.label}
+                if(this.formInputs.nationality != this.copyUserData.nationality) {this.formInputs.nationality = this.formInputs.nationality.label}
+                if(this.formInputs.id_doc_type != this.copyUserData.ID_doc_type) {this.formInputs.id_doc_type = this.formInputs.id_doc_type.label}
+            }
+
             if(this.formInputs.birth_date.toString().length > 10) {
                 this.formInputs.birth_date = this.formInputs.birth_date.getFullYear()+'-'+(this.formInputs.birth_date.getMonth()+1)+'-'+this.formInputs.birth_date.getDate();
             }
