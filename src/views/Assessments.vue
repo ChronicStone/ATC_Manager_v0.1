@@ -4,13 +4,13 @@
       
       <vx-card ref="filterCard" title="Filters" class="user-list-filters mb-8">
         <div class="vx-row">
-          <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
+          <div class="vx-col md:w-1/8 sm:w-1/4 w-full">
             <label class="text-sm opacity-75">Status</label>
             <v-select :options="statusOptions" v-model="filterByStatus" class="mb-4 md:mb-0" />
           </div>
-          <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
+          <div class="vx-col md:w-1/8 sm:w-1/4 w-full">
             <label class="text-sm opacity-75">Candidate name</label>
-            <vs-input placeholder="e.g : John DOE" v-model="filterByName"></vs-input>
+            <vs-input placeholder="e.g : John DOE" class="w-full" v-model="filterByName"></vs-input>
           </div>
         </div>
       </vx-card>
