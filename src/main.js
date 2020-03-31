@@ -56,6 +56,10 @@ import router from './router'
 import store from './store/store'
 
 
+// Import Vue2Filters, library of custom for arrays, strings & other
+import Vue2Filters from 'vue2-filters'
+Vue.use(Vue2Filters)
+
 // VeeValidate import
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 Vue.component('ValidationProvider', ValidationProvider);

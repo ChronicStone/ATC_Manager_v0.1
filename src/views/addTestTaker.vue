@@ -256,8 +256,8 @@ export default {
                      this.formInputs.phone_nb_mobile = userData.mobile_phone_number
                      this.formInputs.phone_nb_other = userData.other_phone_number
                      this.formInputs.gender = userData.gender
-                     this.formInputs.adress = userData.first_name
-                     this.formInputs.adress2 = userData.first_name
+                     this.formInputs.adress = userData.adress
+                     this.formInputs.adress2 = userData.adress2
                      this.formInputs.zip_code = userData.zip_code
                      this.formInputs.city = userData.city
                      this.formInputs.country = userData.country

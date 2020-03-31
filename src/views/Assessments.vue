@@ -1,6 +1,16 @@
 <template lang="html">
   <div>
     <vs-breadcrumb class="mb-5" :items="[{title: 'Home', url: '/'}, {title: 'Assessments', url: '', active: true}]" separator="chevron_right"></vs-breadcrumb>
+      
+      <vx-card ref="filterCard" title="Filters" class="user-list-filters mb-8" actionButtons>
+        <div class="vx-row">
+          <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
+            <label class="text-sm opacity-75">Status</label>
+            <v-select :options="statusOptions" v-model="filterByStatus" class="mb-4 md:mb-0" />
+          </div>
+        </div>
+      </vx-card>
+      
       <vs-table
         class=""
         ref="table"
@@ -156,13 +166,17 @@
 
 <script >
 
-  import axios from "axios";
+import axios from "axios";
 import VxBreadcrumb from "@/layouts/components/VxBreadcrumb";
+import vSelect from 'vue-select'
+import Vue2Filters from 'vue2-filters'
 
 
 export default {
+  mixins: [Vue2Filters.mixin],
   components: {
-    VxBreadcrumb
+    VxBreadcrumb,
+    vSelect
   },
   data: () => ({
     isMounted: false,
@@ -177,13 +191,30 @@ export default {
 	],
     selected: [],
     testQueries: [],
+    testQueriesInit: [],
     // Data des check errors on action
     successRow:0,
     failedRow:0,
     invalidRow:0,
     msgBoxSuccesUpdate:false,
     msgBoxInvalidUpdate:false,
-    msgBoxFailedUpdate:false
+    msgBoxFailedUpdate:false,
+    filterStatus: '',
+    statusOptions: [
+        { label: 'All', value: 'all' },
+        { label: 'Created', value: 'Created' },
+        { label: 'Assigned', value: 'Assigned' },
+        { label: 'Started', value: 'Started' },
+        { label: 'Done', value: 'Done' },
+        { label: 'Pending', value: 'Pending' },
+        { label: 'Cancelled', value: 'Cancelled' },
+      ],
+    batchOptions: [
+        { label: 'All', value: 'all' },
+        { label: 'Admin', value: 'admin' },
+        { label: 'User', value: 'user' },
+        { label: 'Staff', value: 'staff' }
+      ],
   }),
   beforeCreate: function() {
     if (!this.$session.exists()) {
@@ -193,7 +224,7 @@ export default {
   mounted() {
     axios
       .get('https://langaj.chronicstone.online/test-assessment/get/index.php?session_id=' + this.$session.get('session_id'))
-      .then(response => (this.testQueries = response.data.data))
+      .then(response => (this.testQueries = response.data.data, this.testQueriesInit = response.data.data))
     this.isMounted = true
   },
   computed: {
@@ -208,7 +239,21 @@ export default {
     },
     queriedItems() {
       return this.$refs.table ? this.$refs.table.queriedResults.length : this.testQueries.length
-    }
+    },
+    filterByStatus: {
+      get() {
+        return this.filterStatus
+      },
+      set(value) {
+        this.filterStatus = value
+        if(value.value == 'all') {
+          this.testQueries = this.testQueriesInit
+        }
+        else {
+          this.testQueries = this.filterBy(this.testQueriesInit, this.filterStatus.value, 'test_status')
+        }
+      }
+    },
   },
   methods: {
     addTestTaker() {
