@@ -12,7 +12,7 @@
   <div id="page-user-list">
     <vs-breadcrumb class="mb-5" :items="[{title: 'Home', url: '/'}, {title: 'Candidates', url: '/candidates', active: true}]" separator="chevron_right"></vs-breadcrumb>
 
-    <vx-card ref="filterCard" title="Filters" class="user-list-filters mb-8" actionButtons @refresh="resetColFilters" @remove="resetColFilters">
+    <vx-card ref="filterCard" v-show="false" title="Filters" class="user-list-filters mb-8" actionButtons @refresh="resetColFilters" @remove="resetColFilters">
       <div class="vx-row">
         <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
           <label class="text-sm opacity-75">Role</label>
@@ -32,7 +32,6 @@
         </div>
       </div>
     </vx-card>
-
     <div class="vx-card p-6">
 
       <div class="flex flex-wrap items-center">
@@ -210,14 +209,20 @@ export default {
       },
       columnDefs: [
         {
-          headerName: 'Gender',
-          field: 'gender',
+          headerName: 'Actions',
+          field: 'id',
           width: 150,
           checkboxSelection: true,
           headerCheckboxSelectionFilteredOnly: true,
           headerCheckboxSelection: true,
-          cellRendererFramework: 'CellRendererVerified'
+          cellRendererFramework: 'CellRendererActions',
 
+        },
+        {
+          headerName: 'Gender',
+          field: 'gender',
+          width: 120,
+          cellRendererFramework: 'CellRendererVerified',
         },
         {
           headerName: 'Name',
@@ -288,12 +293,7 @@ export default {
           cellRendererFramework: 'CellRendererBoolValue',
           cellClass: 'text-center'
         },
-        {
-          headerName: 'Actions',
-          field: 'transactions',
-          width: 160,
-          cellRendererFramework: 'CellRendererActions',
-        }
+
       ],
 
       // Cell Renderer Components

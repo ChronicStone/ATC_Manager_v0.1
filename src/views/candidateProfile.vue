@@ -257,7 +257,6 @@ export default {
             tabColor:'success',
             optionsTest: [
                 {id: 1, label: 'Langaj placement test V2 without Exercise'},
-                {id: 2, label: 'Langaj placement test V2 with Exercise'},
             ],
             optionsBatch: [
                 {id: 1, label: '#03_2020-12-25_sessionGrp1_salle12'},

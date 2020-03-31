@@ -1,6 +1,6 @@
 <template>
   <div>
-      <vs-chip class=" mt-8 ag-grid-cell-chip" :color="chipColor(params.value)">
+      <vs-chip class=" mt-6 ag-grid-cell-chip" :color="chipColor(params.value)">
         <span><font-awesome-icon size="15px" :icon="selectIcon(params.value)"/></span>
       </vs-chip>
   </div>  

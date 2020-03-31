@@ -2,7 +2,7 @@
   <div>
     <vs-breadcrumb class="mb-5" :items="[{title: 'Home', url: '/'}, {title: 'Assessments', url: '', active: true}]" separator="chevron_right"></vs-breadcrumb>
       
-      <vx-card ref="filterCard" title="Filters" class="user-list-filters mb-8" actionButtons>
+      <vx-card ref="filterCard" title="Filters" class="user-list-filters mb-8">
         <div class="vx-row">
           <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
             <label class="text-sm opacity-75">Status</label>
