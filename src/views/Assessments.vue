@@ -135,7 +135,7 @@
                 Not available yet
               </div>
               <div v-else>
-                {{data[indextr].global_level}}
+                {{data[indextr].global_level|ConvertCECR}}
               </div>
             </vs-td>
 

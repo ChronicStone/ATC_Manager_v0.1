@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mounted = true">
+  <div v-if="mounted === true">
     <span v-if="userAssessments =='0'" class="text-warning"><i>No</i></span>
     <span v-else class="text-success"> Yes </span>
   </div>
