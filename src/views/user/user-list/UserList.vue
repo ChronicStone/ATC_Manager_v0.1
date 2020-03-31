@@ -144,6 +144,9 @@ import CellRendererLink from './cell-renderer/CellRendererLink.vue'
 import CellRendererStatus from './cell-renderer/CellRendererStatus.vue'
 import CellRendererVerified from './cell-renderer/CellRendererVerified.vue'
 import CellRendererActions from './cell-renderer/CellRendererActions.vue'
+import CellRendererValue from './cell-renderer/CellRendererValue.vue'
+import CellRendererOngoingTest from './cell-renderer/CellRendererOngoingTest.vue'
+import CellRendererBoolValue from './cell-renderer/CellRendererBoolValue.vue'
 
 
 export default {
@@ -155,7 +158,10 @@ export default {
     CellRendererLink,
     CellRendererStatus,
     CellRendererVerified,
-    CellRendererActions
+    CellRendererActions,
+    CellRendererValue,
+    CellRendererOngoingTest,
+    CellRendererBoolValue
   },
   data () {
     return {
@@ -214,22 +220,41 @@ export default {
 
         },
         {
-          headerName: 'First name',
-          field: 'first_name',
+          headerName: 'Name',
+          field: 'fullname',
           filter: true,
           width: 170,
         },
         {
-          headerName: 'Last name',
-          field: 'last_name',
+          headerName: 'Country',
+          field: 'country',
           filter: true,
           width: 170,
+          cellRendererFramework: 'CellRendererValue'
         },
         {
-          headerName: 'Email',
-          field: 'mail',
+          headerName: 'City',
+          field: 'city',
           filter: true,
-          width: 250
+          width: 170,
+          cellRendererFramework: 'CellRendererValue',
+          cellClass: 'text-center'
+        },
+        {
+          headerName: 'Organisation',
+          field: 'organisation',
+          filter: true,
+          width: 220,
+          cellRendererFramework: 'CellRendererValue',
+          cellClass: 'text-center'
+        },
+        {
+          headerName: 'Department',
+          field: 'department',
+          filter: true,
+          width: 220,
+          cellRendererFramework: 'CellRendererValue',
+          cellClass: 'text-center'
         },
         {
           headerName: 'Status',
@@ -240,16 +265,28 @@ export default {
           cellClass: 'text-center'
         },
         {
-          headerName: 'Organisation',
-          field: 'organisation',
+          headerName: 'Ongoing test',
+          field: 'id',
           filter: true,
-          width: 220
+          width: 170,
+          cellRendererFramework: 'CellRendererOngoingTest',
+          cellClass: 'text-center'
         },
         {
-          headerName: 'Department',
-          field: 'department',
+          headerName: 'ID #',
+          field: 'ID_doc_number',
           filter: true,
-          width: 220
+          width: 185,
+          cellRendererFramework: 'CellRendererBoolValue',
+          cellClass: 'text-center'
+        },
+        {
+          headerName: 'Photo',
+          field: 'test_taker_photo',
+          filter: true,
+          width: 185,
+          cellRendererFramework: 'CellRendererBoolValue',
+          cellClass: 'text-center'
         },
         {
           headerName: 'Actions',
@@ -264,15 +301,23 @@ export default {
         CellRendererLink,
         CellRendererStatus,
         CellRendererVerified,
-        CellRendererActions
+        CellRendererActions,
+        CellRendererValue,
+        CellRendererOngoingTest,
+        CellRendererBoolValue
       }
     }
   },
   beforeMount () {
-    console.log('try')
 		axios
 			.get('https://langaj.chronicstone.online/test-taker/get/')
-			.then(response => (this.usersData = response.data.data))
+			.then(response => {
+        this.usersData = response.data.data
+        for(var i=0;i<this.usersData.length;i++) {
+          // Full name variable
+          this.usersData[i].fullname = this.usersData[i].first_name + ' ' + this.usersData[i].last_name
+        }
+      })
   },
   watch: {
     roleFilter (obj) {

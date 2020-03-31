@@ -8,6 +8,10 @@
             <label class="text-sm opacity-75">Status</label>
             <v-select :options="statusOptions" v-model="filterByStatus" class="mb-4 md:mb-0" />
           </div>
+          <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
+            <label class="text-sm opacity-75">Candidate name</label>
+            <vs-input placeholder="e.g : John DOE" v-model="filterByName"></vs-input>
+          </div>
         </div>
       </vx-card>
       
@@ -119,7 +123,7 @@
             </vs-td>
 
             <vs-td :data="data[indextr].expected_due_date">
-              {{data[indextr].expected_due_date}}
+              {{data[indextr].expected_due_date|formatDate}}
             </vs-td>
 
             <vs-td :data="data[indextr].test_status">
@@ -192,6 +196,7 @@ export default {
     selected: [],
     testQueries: [],
     testQueriesInit: [],
+    testQueriesFilter: [],
     // Data des check errors on action
     successRow:0,
     failedRow:0,
@@ -200,8 +205,9 @@ export default {
     msgBoxInvalidUpdate:false,
     msgBoxFailedUpdate:false,
     filterStatus: '',
+    filterName: '',
     statusOptions: [
-        { label: 'All', value: 'all' },
+        { label: 'All', value: '' },
         { label: 'Created', value: 'Created' },
         { label: 'Assigned', value: 'Assigned' },
         { label: 'Started', value: 'Started' },
@@ -246,16 +252,28 @@ export default {
       },
       set(value) {
         this.filterStatus = value
-        if(value.value == 'all') {
-          this.testQueries = this.testQueriesInit
-        }
-        else {
-          this.testQueries = this.filterBy(this.testQueriesInit, this.filterStatus.value, 'test_status')
-        }
+        //this.testQueries = this.filterBy(this.testQueriesInit, this.filterStatus.value, 'test_status')
+        this.globalFiltering()
+      }
+    },
+    filterByName: {
+      get() {
+        return this.filterName
+      },
+      set(value) {
+        this.filterName = value
+        //this.testQueries = this.filterBy(this.testQueriesInit, this.filterName, 'first_name', 'last_name')
+        this.globalFiltering()
       }
     },
   },
   methods: {
+    globalFiltering() {
+      // Filter status
+      this.testQueries = this.filterBy(this.testQueriesInit, this.filterStatus.value, 'test_status')
+      // Then filter name
+      this.testQueries = this.filterBy(this.testQueries, this.filterName, 'first_name', 'last_name')
+    },
     addTestTaker() {
       this.$router.push('/addTestTaker')
     },
