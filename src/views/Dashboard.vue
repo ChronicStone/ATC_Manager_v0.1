@@ -31,7 +31,8 @@ export default {
       popupActive:false,
       popupActive2:false,
       name: "cyp",
-      name2: "thao"
+      name2: "thao",
+      mailTemplate: ''
     }
   },
   beforeCreate: function() {
@@ -40,21 +41,26 @@ export default {
     }
   },
   methods: {
-    MailAssignTest() {
-      var templateParams = {
-        "candidate_email": "benoitthao@gmail.com",
-        "candidate_first_name": "Benoit",
-        "candidate_last_name": "THAO"
-      };
-      var service_id = "default_service";
-      var template_id = "assign_test";
-      var user_id = "user_g6iQmMyQ1Tl2VcSdVzJPY"
-      emailjs.send(service_id , template_id, templateParams, user_id)
-        .then((response) => {
-          console.log('SUCCESS!', response.status, response.text);
-        }, (err) => {
-          console.log('FAILED...', err);
-        });
+
+      MailAssignTest() {
+        axios.get("https://langaj.chronicstone.online/assets/emails/test_mail.html").then(response => {
+          this.mailTemplate = response.data
+          var templateParams = {
+            "candidate_email": "benoitthao@gmail.com",
+            "candidate_fname": "Benoit",
+            "templatehtml": this.mailTemplate,
+          };
+          var service_id = "default_service";
+          var template_id = "assign_test";
+          var user_id = "user_g6iQmMyQ1Tl2VcSdVzJPY"
+          emailjs.send(service_id , template_id, templateParams, user_id)
+            .then((response) => {
+              console.log('SUCCESS!', response.status, response.text);
+            }, (err) => {
+              console.log('FAILED...', err);
+            });
+          })
+      
     }
   }
 }
