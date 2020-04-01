@@ -1,6 +1,7 @@
 <template>
   	<vx-card ref="filterCard" title="Dashboard" class="user-list-filters mb-8" collapseAction>
       To be build
+      <vs-button @click.prevent="MailAssignTest()">Send mail</vs-button>
     </vx-card>
 </template>
 
@@ -9,6 +10,9 @@
 import {VueAvatar, VueAvatarScale} from 'vue-avatar-editor-improved'
 import Avatar from 'vue-avatar'
 import axios from "axios";
+import emailjs from 'emailjs-com';
+import jsPDF from 'jspdf'
+import 'jspdf-autotable'
 
 export default {
   components: {
@@ -35,6 +39,24 @@ export default {
       this.$router.push('/pages/login')
     }
   },
+  methods: {
+    MailAssignTest() {
+      var templateParams = {
+        "candidate_email": "benoitthao@gmail.com",
+        "candidate_first_name": "Benoit",
+        "candidate_last_name": "THAO"
+      };
+      var service_id = "default_service";
+      var template_id = "assign_test";
+      var user_id = "user_g6iQmMyQ1Tl2VcSdVzJPY"
+      emailjs.send(service_id , template_id, templateParams, user_id)
+        .then((response) => {
+          console.log('SUCCESS!', response.status, response.text);
+        }, (err) => {
+          console.log('FAILED...', err);
+        });
+    }
+  }
 }
 </script>
 

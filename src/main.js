@@ -60,6 +60,10 @@ import store from './store/store'
 import Vue2Filters from 'vue2-filters'
 Vue.use(Vue2Filters)
 
+//Import EmailJS
+import emailjs from 'emailjs-com';
+Vue.use(emailjs)
+
 // VeeValidate import
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 Vue.component('ValidationProvider', ValidationProvider);

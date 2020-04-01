@@ -208,7 +208,28 @@ export default {
         suppressMenu: true
       },
       columnDefs: [
+        {
+          headerName: 'Actions',
+          field: 'id',
+          width: 150,
+          checkboxSelection: true,
+          headerCheckboxSelectionFilteredOnly: true,
+          headerCheckboxSelection: true,
+          cellRendererFramework: 'CellRendererActions',
 
+        },
+        {
+          headerName: 'Gender',
+          field: 'gender',
+          width: 120,
+          cellRendererFramework: 'CellRendererVerified',
+        },
+        {
+          headerName: 'Name',
+          field: 'fullname',
+          filter: true,
+          width: 170,
+        },
         {
           headerName: 'Country',
           field: 'country',
