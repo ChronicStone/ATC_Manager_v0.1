@@ -145,7 +145,7 @@ export default {
     }
   },
   beforeMount() {
-		axios.get('https://langaj.chronicstone.online/settings/')
+		axios.get('https://langaj.chronicstone.online/settings/?session_id=' + this.$session.get('session_id'))
 			 .then(response => {
 				 this.department = response.data.settings.department
 			 })
@@ -211,7 +211,7 @@ export default {
       else {return true}
     },
     ReloadAPIData() {
-      axios.get('https://langaj.chronicstone.online/settings/')
+      axios.get('https://langaj.chronicstone.online/settings/?session_id=' + this.$session.get('session_id'))
 			 .then(response => {
 				 this.department = response.data.settings.department
        })

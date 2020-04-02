@@ -62,31 +62,11 @@ export default {
 			nbItems: 5
 		}
 	},
-	beforeMount() {
-		axios.get('https://langaj.chronicstone.online/settings/')
-			 .then(response => {
-				 this.batchlist = response.data.settings.batch
-				 this.department = response.data.settings.department
-				 this.organisation = response.data.settings.organisation
-			 })
-	},
 	computed: {
-		currentPage() {
-			if (this.isMounted) {
-				return this.$refs.table.currentx
-			}
-			return 0
-			},
-			queries() {
-				return this.batchlist
-			},
-			queriedItems() {
-				return this.$refs.table ? this.$refs.table.queriedResults.length : this.batchlist.length
-			},
-			isSmallerScreen () {
-				return this.$store.state.windowWidth < 768
-			}
-		},
+		isSmallerScreen () {
+			return this.$store.state.windowWidth < 768
+		}
+	},
 	methods: {
 		setInputColor(err) {
             //if (err[0] != null) return 'danger'

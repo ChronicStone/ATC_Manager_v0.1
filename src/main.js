@@ -64,6 +64,10 @@ Vue.use(Vue2Filters)
 import emailjs from 'emailjs-com';
 Vue.use(emailjs)
 
+//Vue phone input
+import VueTelInput from 'vue-tel-input'
+Vue.use(VueTelInput)
+
 // VeeValidate import
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 Vue.component('ValidationProvider', ValidationProvider);

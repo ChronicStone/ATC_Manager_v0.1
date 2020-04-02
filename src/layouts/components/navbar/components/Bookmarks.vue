@@ -1,6 +1,6 @@
 <template>
   <div class="navbar-bookmarks flex items-center">
-    <feather-icon icon="CommandIcon" class="mr-2" svgClasses="w-6 h-6" />
+    <feather-icon icon="CommandIcon" class="mr-2 text-primary" svgClasses="w-6 h-6" />
     <h3 class="display-1">{{atcDAta.ATC_name}}</h3>
 
     <!-- STARRED PAGES - FIRST 10 -->

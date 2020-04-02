@@ -1,5 +1,7 @@
 <template>
    <div>
+    <vue-tel-input class="mb-8" v-model="value"></vue-tel-input>
+
      <vue-html2pdf
         :show-layout="false"
         :preview-modal="true"
