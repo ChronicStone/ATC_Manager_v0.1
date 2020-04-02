@@ -122,7 +122,7 @@
                         </tr>
                         <tr >
                             <td class="font-semibold pb-3 pt-6 w-full">ID Doc. type</td>
-                            <td v-if="checkDataContent(userData.birth_date)" class="pb-3 pl-22 w-full pt-6"><i>Not specified</i></td>
+                            <td v-if="checkDataContent(userData.ID_doc_type)" class="pb-3 pl-22 w-full pt-6"><i>Not specified</i></td>
                             <td v-else class="pb-3 pt-6 pl-16"><span class="w-full">{{userData.ID_doc_type}}</span></td>
                         </tr>
                         <tr >
@@ -155,7 +155,7 @@
                         <tr >
                             <td class="font-semibold pb-3 pt-6 w-1/2">Department</td>
                             <td v-if="checkDataContent(userData.organisation)" class="pb-3 pl-16 w-full pt-6"><i>Not specified</i></td>
-                            <td v-else class="pb-3 pt-6 pl-16 w-full"><span class="w-full">{{userData.ID_doc_type}}</span></td>
+                            <td v-else class="pb-3 pt-6 pl-16 w-full"><span class="w-full">{{userData.organisation}}</span></td>
                         </tr>
                         <tr >
                             <td class="font-semibold pb-3 pt-6 w-1/2"></td>
@@ -182,7 +182,7 @@
                         <span>
                             <ul>
                                 <li>
-                                    <p class="text-primary">Key token : </p>{{assess.key_token}}
+                                    <p class="text-primary">Secure code : </p>{{assess.key_token}}
                                 </li>                                
                                 <li>
                                     <p class="text-primary">Candidate mail : </p>{{assess.email}}
@@ -265,7 +265,7 @@ export default {
         }
     },
     beforeMount() {
-        axios.get('https://langaj.chronicstone.online/test-taker/get/index.php?id=' + this.$route.params.id)
+        axios.get('https://langaj.chronicstone.online/test-taker/get/index.php?id=' + this.$route.params.id + '&session_id=' + this.$session.get('session_id'))
              .then(response => (this.userData = response.data.data[0]))
 
         axios.get('https://langaj.chronicstone.online/test-assessment/get/index.php?id=' + this.$route.params.id + '&session_id=' + this.$session.get('session_id'))

@@ -33,5 +33,11 @@ export default [
     slug: "assessments",
     icon: "ListIcon",
   },
+  {
+    url: "/test-center",
+    name: "Test center",
+    slug: "test-center",
+    icon: "PackageIcon",
+  },
 
 ]

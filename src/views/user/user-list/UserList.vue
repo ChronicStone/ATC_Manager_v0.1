@@ -310,7 +310,7 @@ export default {
   },
   beforeMount () {
 		axios
-			.get('https://langaj.chronicstone.online/test-taker/get/')
+			.get('https://langaj.chronicstone.online/test-taker/get/?session_id=' + this.$session.get('session_id'))
 			.then(response => {
         this.usersData = response.data.data
         for(var i=0;i<this.usersData.length;i++) {

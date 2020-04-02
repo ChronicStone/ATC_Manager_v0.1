@@ -1,6 +1,10 @@
 <template>
    <div>
-    <vue-tel-input class="mb-8" v-model="value"></vue-tel-input>
+        <vx-card>
+            <div class="w-1/8">            
+                <vue-tel-input class="mb-8 w-1/6" v-model="value"></vue-tel-input>
+            </div>
+        </vx-card>
 
      <vue-html2pdf
         :show-layout="false"

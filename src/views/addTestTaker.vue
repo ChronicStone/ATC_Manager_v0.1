@@ -42,7 +42,7 @@
                         </div>
                         <div class="vx-col sm:w-1/2 w-full mb-2">
                             <ValidationProvider name="Last name" :rules="{ required: true, alpha: true }" v-slot="{ errors }">
-                                <vs-input class="w-full" :color="setInputColor(errors)" label-placeholder="Last Name *" v-model="formInputs.last_name" />
+                                <vs-input class="w-full" :color="setInputColor(errors)" label-placeholder="Last Name *" v-model="setUppercaseLName" />
                                 <vs-alert v-if="errors[0] != null" color="danger" icon-pack="feather" icon="icon-info" class="mt-2 p-0"> 
                                     <span>{{ errors[0] }}</span>
                                 </vs-alert>
@@ -112,7 +112,7 @@
                             <vs-input class="w-full" label-placeholder="ZIP Code" v-model="formInputs.zip_code" />
                         </div>
                         <div class="vx-col sm:w-1/2 w-full">
-                            <vs-input class="w-full" label-placeholder="City" v-model="formInputs.city" />
+                            <vs-input class="w-full" label-placeholder="City" v-model="setUppercaseCity" />
                         </div>
                     </div>
                     <div class="vx-row">
@@ -244,7 +244,7 @@ export default {
         if(this.$route.params.id != null) {
             this.formInputs.request = 2
             this.formInputs.last_update = this.currentDate()
-            axios.get('https://langaj.chronicstone.online/test-taker/get/index.php?id=' + this.$route.params.id)
+            axios.get('https://langaj.chronicstone.online/test-taker/get/index.php?id=' + this.$route.params.id + '&session_id=' + this.$session.get('session_id'))
                  .then(response => {
                      var userData = response.data.data[0]
                      this.copyUserData = userData
@@ -270,6 +270,24 @@ export default {
                      this.formInputs.user_photo = userData.user_photo
                      this.isMounted = true
                  })
+        }
+    },
+    computed: {
+        setUppercaseCity: {
+            get() {
+                return this.formInputs.city
+            },
+            set(value) {
+                this.formInputs.city = this.$options.filters.uppercase(value)
+            }
+        },
+        setUppercaseLName: {
+            get() {
+                return this.formInputs.last_name
+            },
+            set(value) {
+                this.formInputs.last_name = this.$options.filters.uppercase(value)
+            }
         }
     },
     methods: {
