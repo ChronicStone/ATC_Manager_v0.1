@@ -2,7 +2,7 @@
    <div>
         <vx-card>
             <div class="w-1/8">            
-                <vue-tel-input class="mb-8 w-1/6" v-model="value"></vue-tel-input>
+                <vue-tel-input class="mb-8 w-1/6" v-model="value" wrapperClasses="rounded"></vue-tel-input>
             </div>
         </vx-card>
 

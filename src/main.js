@@ -68,6 +68,10 @@ Vue.use(emailjs)
 import VueTelInput from 'vue-tel-input'
 Vue.use(VueTelInput)
 
+// Vue-mask (to formate inputs for ex)
+import VueTheMask from 'vue-the-mask'
+Vue.use(VueTheMask)
+
 // VeeValidate import
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 Vue.component('ValidationProvider', ValidationProvider);

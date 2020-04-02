@@ -7,60 +7,60 @@
             </div>
             <!-- Avatar -->
             <div class="vx-row">
+                <!-- Avatar Col -->
+                <div class="vx-col" id="avatar-col">
+                    <div class="img-container mb-4">
+                        <avatar :size="100" class="rounded" :src="userData.test_taker_photo" :username="userData.first_name+' '+userData.last_name"></avatar>
+                    </div>
+                </div>
 
-            <!-- Avatar Col -->
-            <div class="vx-col" id="avatar-col">
-                <div class="img-container mb-4">
-                    <avatar :size="100" class="rounded" :src="userData.test_taker_photo" :username="userData.first_name+' '+userData.last_name"></avatar>
+                <!-- Information - Col 1 -->
+                <div class="vx-col flex-1" id="account-info-col-1">
+                    <table >
+                        <tr>
+                            <td class="font-semibold pb-3 w-1/2 pt-3">First name</td>
+                            <td class="pb-3 pl-20 right w-full">{{ userData.first_name }}</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold pb-3 w-1/2">Last name</td>
+                            <td class="pb-3 pl-20 w-full">{{ userData.last_name }}</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold pb-3 w-1/2">Other name</td>
+                            <td v-if="checkDataContent(userData.other_name)" class="pb-3 pl-20"><i>Not specified</i></td>
+                            <td v-else class="pb-3 pl-20 w-full">{{ userData.other_name }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- /Information - Col 1 -->
+                <!-- Information - Col 2 -->
+                <div class="vx-col flex-1 border border-warning mr-8 pl-12 pt-3" style="border-left:1px solid black" id="account-info-col-2">
+                    <table>
+                        <tr>
+                            <td class="font-semibold w-1/2 pb-3">Status</td>
+                            <td v-if="checkDataContent(userData.test_taker_status)" class="pb-3 pl-20 w-full"><i>Not specified</i></td>
+                            <td v-else class="pb-3 pl-20 w-full"><vs-chip color="success">{{userData.test_taker_status|capitalize}}</vs-chip></td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold pb-3 w-1/2">Language</td>
+                            <td v-if="checkDataContent(userData.mother_tongue)" class="pb-3 pl-20 w-full"><i>Not specified</i></td>
+                            <td v-else class="pb-3 pl-20 w-full">{{userData.mother_tongue}}</td>  
+                        </tr>
+
+                        <tr>
+                            <td class="font-semibold w-1/2 pb-3">Gender</td>
+                            <td v-if="checkDataContent(userData.gender)" class="pb-3 pl-20 w-full"><i>Not specified</i></td>
+                            <td v-else class="pb-3 pl-20 w-full">{{userData.gender|capitalize}}</td>
+                        </tr>
+                    </table>
+                </div>
+
+
+                <div class="vx-col w-full flex" id="account-manage-buttons">
+                    <vs-button icon-pack="feather" icon="icon-edit" class="mr-4" @click.prevent="editCandidate()">Edit</vs-button>
+                    <!--<vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash">Delete</vs-button>-->
                 </div>
             </div>
-
-            <!-- Information - Col 1 -->
-            <div class="vx-col flex-1" id="account-info-col-1">
-                <table >
-                    <tr>
-                        <td class="font-semibold pb-3 w-1/2 pt-3">First name</td>
-                        <td class="pb-3 pl-20 right w-full">{{ userData.first_name }}</td>
-                    </tr>
-                    <tr>
-                        <td class="font-semibold pb-3 w-1/2">Last name</td>
-                        <td class="pb-3 pl-20 w-full">{{ userData.last_name }}</td>
-                    </tr>
-                    <tr>
-                        <td class="font-semibold pb-3 w-1/2">Other name</td>
-                        <td v-if="checkDataContent(userData.other_name)" class="pb-3 pl-20"><i>Not specified</i></td>
-                        <td v-else class="pb-3 pl-20 w-full">{{ userData.other_name }}</td>
-                    </tr>
-                </table>
-            </div>
-            <!-- /Information - Col 1 -->
-            <!-- Information - Col 2 -->
-            <div class="vx-col flex-1 border border-warning mr-8 pl-12 pt-3" style="border-left:1px solid black" id="account-info-col-2">
-                <table>
-                <tr>
-                    <td class="font-semibold w-1/2 pb-3">Mail address</td>
-                    <td v-if="checkDataContent(userData.mail)" class="pb-3 pl-20 w-full"><i>Not specified</i></td>
-                    <td v-else class="pb-3 pl-20 w-full">{{userData.mail}}</td>
-                <tr>
-                    <td class="font-semibold pb-3 w-1/2">Mobile phone</td>
-                    <td v-if="checkDataContent(userData.mobile_phone_number)" class="pb-3 pl-20 w-full"><i>Not specified</i></td>
-                    <td v-else class="pb-3 pl-20 w-full">{{userData.mobile_phone_number|phone}}</td>  
-                <tr>
-                    <td class="font-semibold pb-3 w-1/2">Other phone</td>
-                    <td v-if="checkDataContent(userData.other_phone_number)" class="pb-3 pl-20 w-full"><i>Not specified</i></td>
-                    <td v-else class="pb-3 pl-20 w-full">{{userData.other_phone_number}}</td>
-                </tr>
-                </table>
-            </div>
-
-
-            <div class="vx-col w-full flex" id="account-manage-buttons">
-                <vs-button icon-pack="feather" icon="icon-edit" class="mr-4" @click.prevent="editCandidate()">Edit</vs-button>
-                <!--<vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash">Delete</vs-button>-->
-            </div>
-
-            </div>
-
         </vx-card>
 
         <div class="vx-row">

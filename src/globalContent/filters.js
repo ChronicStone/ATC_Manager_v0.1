@@ -1,12 +1,9 @@
 import Vue from 'vue';
 import moment from 'moment'
+import { VueMaskFilter } from 'v-mask'
 
-// Phone number formating filter
-Vue.filter('phone', function (phone) {
-    return phone.replace(/[^0-9]/g, '')
-                .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-});
-
+// Dépendence formatage inputs
+Vue.filter('VMask', VueMaskFilter)
 
 Vue.filter('capitalize', function (value) {
     if (!value) return ''

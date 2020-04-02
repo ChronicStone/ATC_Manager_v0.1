@@ -69,16 +69,16 @@
                     </div>
                     <div class="vx-row">
                         <div class="vx-col sm:w-1/2 w-full mb-2">
-                            <ValidationProvider name="Mobile phone" :rules="{ required: false, numeric: true }" v-slot="{ errors }">
-                                <vs-input class="w-full" :color="setInputColor(errors)" label-placeholder="Mobile phone" v-model="formInputs.phone_nb_mobile" />
+                            <ValidationProvider name="Mobile phone" :rules="{ required: false, regex:  /^[0-9 ]+$/ }" v-slot="{ errors }">
+                                <vs-input class="w-full"  :color="setInputColor(errors)" label-placeholder="Mobile phone" v-model="formInputs.phone_nb_mobile" v-mask="'## ## ## ## ##'"/>
                                 <vs-alert v-if="errors[0] != null" color="danger" icon-pack="feather" icon="icon-info" class="mt-2 p-0"> 
                                     <span>{{ errors[0] }}</span>
                                 </vs-alert>
                             </ValidationProvider>
                         </div>
                         <div class="vx-col sm:w-1/2 w-full mb-2">
-                            <ValidationProvider name="Other phone" :rules="{ required: false, numeric: true }" v-slot="{ errors }">
-                                <vs-input type="text" class="w-full" :color="setInputColor(errors)" label-placeholder="Other phone" v-model="formInputs.phone_nb_other" />
+                            <ValidationProvider name="Other phone" :rules="{ required: false, regex: /^[0-9 ]+$/ }" v-slot="{ errors }">
+                                <vs-input type="text" class="w-full" :color="setInputColor(errors)" label-placeholder="Other phone" v-model="formInputs.phone_nb_other" v-mask="'## ## ## ## ##'" />
                                 <vs-alert v-if="errors[0] != null" color="danger" icon-pack="feather" icon="icon-info" class="mt-2 p-0"> 
                                     <span>{{ errors[0] }}</span>
                                 </vs-alert>
@@ -167,13 +167,14 @@
 import axios from "axios";
 import vSelect from 'vue-select'
 import Datepicker from 'vuejs-datepicker';
-
+import {TheMask} from 'vue-the-mask'
 
 
 export default {
     components: {
         'v-select': vSelect,
-        Datepicker
+        Datepicker,
+        TheMask
     },
     data:()=>({
         isMounted:false,
