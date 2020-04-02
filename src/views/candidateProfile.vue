@@ -182,7 +182,6 @@
                         <span>
                             <ul>
                                 <li>
-                                    <p class="text-primary">Secure code : </p>{{assess.secure_code}}
                                 </li>                                
                                 <li>
                                     <p class="text-primary">Candidate mail : </p>{{assess.email}}
