@@ -19,6 +19,12 @@
             <feather-icon icon="UserIcon" svgClasses="w-4 h-4" />
             <span class="ml-2">Profile</span>
           </li>
+          <li v-if="checkMTS()" @click="redirectMts()" class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white">
+            <feather-icon icon="SettingsIcon" svgClasses="w-4 h-4" />
+            <span class="ml-2">MTS</span>
+          </li>
+                      
+
 
           <vs-divider class="m-1" />
 
@@ -62,6 +68,15 @@ export default {
       if(this.userData.acc_type === 'Session owner') return 'text-danger'
       if(this.userData.acc_type === 'Session manager') return 'text-warning'
       return 'primary'
+    },
+    checkMTS() {
+      if(Number(this.$session.get('acc_rank')) === 4) {
+        return true
+      }
+      else {return false}
+    },
+    redirectMts() {
+      this.$router.push('/mts-dashboard')
     }
   }
 }
