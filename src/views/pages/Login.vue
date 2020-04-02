@@ -100,17 +100,21 @@ export default{
         }
     },
     loginLaunch(result) {
-        if(result[0].username != null && result[0].password != null) {
-            if(this.input.username == result[0].username && md5(this.input.password) == result[0].password) {
+        if(result.username != null && result.password != null) {
+            if(this.input.username == result.username && md5(this.input.password) == result.password) {
                 this.$session.start()
-                this.$session.set('user', result[0].username)
-                this.$session.set('session_id', result[0].session_id)
-                this.$session.set('account_id', result[0].id)
-                this.$session.set('fname', result[0].first_name)
-                this.$session.set('lname', result[0].last_name)
-                this.$session.set('avatar', result[0].avatar)
-                this.$session.set('acc_type', result[0].account_type)
-                this.$session.set('acc_rank', result[0].account_rank)
+                // Setup user session data
+                this.$session.set('user', result.username)
+                this.$session.set('session_id', result.session_id)
+                this.$session.set('account_id', result.id)
+                this.$session.set('fname', result.first_name)
+                this.$session.set('lname', result.last_name)
+                this.$session.set('avatar', result.avatar)
+                this.$session.set('acc_type', result.account_type)
+                this.$session.set('acc_rank', result.account_rank)
+                
+                // Setup test center data
+                this.$session.set('ATC_data', result.atc)
                 this.$router.push('/');
             } 
             else {

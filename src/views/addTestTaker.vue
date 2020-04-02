@@ -96,15 +96,15 @@
 
                     <vs-divider/>
                     <h5 class="mb-3 text-muted">
-                        # Adress
+                        # Address
                     </h5>
 
                     <div class="vx-row">
                         <div class="vx-col sm:w-1/2 w-full mb-2">
-                            <vs-input class="w-full" label-placeholder="Adress" v-model="formInputs.adress" />
+                            <vs-input class="w-full" label-placeholder="Address" v-model="formInputs.adress" />
                         </div>
                         <div class="vx-col sm:w-1/2 w-full">
-                            <vs-input type="text" class="w-full" label-placeholder="Adress complement" v-model="formInputs.adress2" />
+                            <vs-input type="text" class="w-full" label-placeholder="Address complement" v-model="formInputs.adress2" />
                         </div>
                     </div>
                     <div class="vx-row">

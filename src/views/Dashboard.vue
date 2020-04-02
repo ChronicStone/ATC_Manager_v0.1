@@ -1,7 +1,10 @@
 <template>
   	<vx-card ref="filterCard" title="Dashboard" class="user-list-filters mb-8" collapseAction>
-      To be build
-      <vs-button @click.prevent="MailAssignTest()">Send mail</vs-button>
+      <div class="flex">
+        <span class="mr-4"><b>Test center Name</b> </span>
+        <span class="text-primary"><i>{{atcDAta.ATC_name}}</i></span>
+      </div>
+      <!--<vs-button @click.prevent="Mail()">Send mail</vs-button>-->
     </vx-card>
 </template>
 
@@ -32,7 +35,8 @@ export default {
       popupActive2:false,
       name: "cyp",
       name2: "thao",
-      mailTemplate: ''
+      mailTemplate: '',
+      atcDAta: ''
     }
   },
   beforeCreate: function() {
@@ -40,8 +44,21 @@ export default {
       this.$router.push('/pages/login')
     }
   },
+  created() {
+    this.atcDAta = this.$session.get('ATC_data')
+  },
   methods: {
-
+      Mail() {
+        Email.send({
+          SecureToken : "2a99d7c5-6c1a-4914-939b-4be37ed393b4",
+          To : 'cyprien.thao@edu.devinci.fr',
+          From : "cyprienthao@gmail.com",
+          Subject : "This is the subject",
+          Body : "And this is the body"
+        }).then(
+          message => alert(message)
+        );
+      },
       MailAssignTest() {
         axios.get("https://langaj.chronicstone.online/assets/emails/test_mail.html").then(response => {
           this.mailTemplate = response.data
