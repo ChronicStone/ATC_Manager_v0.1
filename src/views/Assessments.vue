@@ -35,10 +35,17 @@
 
               <vs-dropdown-menu>
 
-                <vs-dropdown-item @click="AssignTest()">
+                <vs-dropdown-item @click="AssignTest('Assigned')">
                   <span class="flex items-center">
-                    <feather-icon icon="TrashIcon" svgClasses="h-4 w-4" class="mr-2" />
+                    <feather-icon icon="SendIcon" svgClasses="h-4 w-4" class="mr-2" />
                     <span>Assign test</span>
+                  </span>
+                </vs-dropdown-item>
+                
+                <vs-dropdown-item @click="AssignTest('Created')">
+                  <span class="flex items-center">
+                    <feather-icon icon="ArrowRightIcon" svgClasses="h-4 w-4" class="mr-2" />
+                    <span>Create test</span>
                   </span>
                 </vs-dropdown-item>
                 <!--
@@ -297,11 +304,11 @@ export default {
       this.msgBoxFailedUpdate = true
       this.msgBoxInvalidUpdate = true
     },
-    AssignTest() {
+    AssignTest(status) {
       var toRemoveArray = []
       this.PrepareResultMsg()
       for(var i = 0; i < this.selected.length; i++) {
-        if(this.selected[i].test_status === 'Created') {
+        if(this.selected[i].test_status === 'Created' || this.selected[i].test_status === 'Assigned') {
 
           var today = new Date();
           var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -310,24 +317,28 @@ export default {
           var data = {
             "request": 2,
             "id": this.selected[i].id,
-            "status_update": 'Assigned',
+            "status_update": status,
             "cr_date": date,
           }
           var email = this.selected[i].email
           var fname = this.selected[i].first_name
           var secure_code = this.selected[i].secure_code
           axios.post(url, data, headers)
-              .then(response => {
-                console.log(response.status)
-                this.successRow +=1 
-                this.ReloadAPIData()
-                toRemoveArray.push(i - 1)
-                this.MailAssignTest(email, fname, secure_code)
-                //this.selected.splice(i - indexLocalizer, 1)
-              })
-              .catch(error => {
-                console.log(error)
-                this.failedRow += 1});
+          .then(response => {
+            console.log(response.status)
+            this.successRow +=1 
+            this.ReloadAPIData()
+            toRemoveArray.push(i - 1)
+            //this.selected.splice(i - indexLocalizer, 1)
+          })
+          .catch(error => {
+            console.log(error)
+            this.failedRow += 1
+          });
+          if(status === 'Assigned') {
+            axios.get('https://langaj.chronicstone.online/test-assessment/?email=' + this.selected[i].email + '&first_name=' + this.selected[i].first_name + '&secure_code=' + this.selected[i].secure_code)
+            .then(console.log('Mail sent to ' + this.selected[i].email))
+          }
         }
         else {
           toRemoveArray.push(i - 1)
@@ -342,28 +353,6 @@ export default {
         .get('https://langaj.chronicstone.online/test-assessment/get/index.php?session_id=' + this.$session.get('session_id'))
         .then(response => (this.testQueries = response.data.data))
     },
-    MailAssignTest(email, fname, secure_code) {
-      var templateParams = {
-          "candidate_email": email,
-          "candidate_fname": fname,
-          "secure_code": secure_code,
-      };
-      var service_id = "default_service";
-      var template_id = "assign_test";
-      var user_id = "user_g6iQmMyQ1Tl2VcSdVzJPY"
-      emailjs.send(service_id , template_id, templateParams, user_id)
-          .then((response) => {
-          console.log('SUCCESS!', response.status, response.text);
-          this.$vs.notify({
-                          title:'Success',
-                          text:response.status + ' : ' + response.text,
-                          color:'success'
-                      })
-          }, 
-          (err) => {
-          console.log('FAILED...', err);
-      });
-    }
   }
 }
 </script>

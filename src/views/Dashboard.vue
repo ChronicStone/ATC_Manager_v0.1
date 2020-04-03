@@ -18,7 +18,6 @@ import 'jspdf-autotable'
 
 export default {
   components: {
-    VueAvatarScale,
     VueAvatar,
     Avatar
   },
