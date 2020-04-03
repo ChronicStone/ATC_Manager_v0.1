@@ -139,7 +139,7 @@
               </div>
             </vs-td>
 
-            <vs-td style="width:15%;":data="data[indextr].id">
+            <vs-td style="width:15%;" :data="data[indextr].id">
               <div class="pdfdownload">
                 <div><vs-icon color="#EB5C52" size="25px" icon="picture_as_pdf"></vs-icon> SR</div>
                 <div style="margin-left:35px;"><vs-icon color="#EB5C52" size="25px" icon="picture_as_pdf"></vs-icon> OC</div>
@@ -318,13 +318,16 @@ export default {
           var secure_code = this.selected[i].secure_code
           axios.post(url, data, headers)
               .then(response => {
+                console.log(response.status)
                 this.successRow +=1 
                 this.ReloadAPIData()
                 toRemoveArray.push(i - 1)
                 this.MailAssignTest(email, fname, secure_code)
                 //this.selected.splice(i - indexLocalizer, 1)
               })
-              .catch(error => {this.failedRow += 1});
+              .catch(error => {
+                console.log(error)
+                this.failedRow += 1});
         }
         else {
           toRemoveArray.push(i - 1)

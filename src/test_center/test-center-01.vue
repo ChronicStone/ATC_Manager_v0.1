@@ -2,7 +2,7 @@
    <div>
         <vx-card>
             <div class="w-1/8">            
-                <vue-tel-input class="mb-8 w-1/6" v-model="value" wrapperClasses="rounded"></vue-tel-input>
+                <vue-tel-input class="mb-8 w-1/6 rounded border-success" style="" v-model="value" wrapperClasses="rounded"></vue-tel-input>
             </div>
             <vs-button @click.prevent="MailAssignTest()">Send mail</vs-button>
 
@@ -74,5 +74,7 @@ export default {
 </script>
 
 <style scoped>
-
+ul {
+    background: black;
+}
 </style>

@@ -146,9 +146,9 @@ export default {
   },
   beforeMount() {
 		axios.get('https://langaj.chronicstone.online/settings/?session_id=' + this.$session.get('session_id'))
-			 .then(response => {
-				 this.organisation = response.data.settings.organisation
-			 })
+		.then(response => {
+		  this.organisation = response.data.settings.organisation
+		})
 	},
   computed: {
     currentPage () {
@@ -212,9 +212,9 @@ export default {
     },
     ReloadAPIData() {
       axios.get('https://langaj.chronicstone.online/settings/?session_id=' + this.$session.get('session_id'))
-			 .then(response => {
-				 this.organisation = response.data.settings.organisation
-       })
+			.then(response => {
+				this.organisation = response.data.settings.organisation
+      })
     },
   },
   mounted () {

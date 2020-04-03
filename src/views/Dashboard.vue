@@ -9,7 +9,7 @@
 
 <script>
 
-import {VueAvatar, VueAvatarScale} from 'vue-avatar-editor-improved'
+import {VueAvatar} from 'vue-avatar-editor-improved'
 import Avatar from 'vue-avatar'
 import axios from "axios";
 import emailjs from 'emailjs-com';
