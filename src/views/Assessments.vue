@@ -35,17 +35,10 @@
 
               <vs-dropdown-menu>
 
-                <vs-dropdown-item @click="AssignTest('Assigned')">
+                <vs-dropdown-item @click="AssignTest()">
                   <span class="flex items-center">
                     <feather-icon icon="SendIcon" svgClasses="h-4 w-4" class="mr-2" />
                     <span>Assign test</span>
-                  </span>
-                </vs-dropdown-item>
-                
-                <vs-dropdown-item @click="AssignTest('Created')">
-                  <span class="flex items-center">
-                    <feather-icon icon="ArrowRightIcon" svgClasses="h-4 w-4" class="mr-2" />
-                    <span>Create test</span>
                   </span>
                 </vs-dropdown-item>
                 <!--
@@ -304,11 +297,11 @@ export default {
       this.msgBoxFailedUpdate = true
       this.msgBoxInvalidUpdate = true
     },
-    AssignTest(status) {
+    AssignTest() {
       var toRemoveArray = []
       this.PrepareResultMsg()
       for(var i = 0; i < this.selected.length; i++) {
-        if(this.selected[i].test_status === 'Created' || this.selected[i].test_status === 'Assigned') {
+        if(this.selected[i].test_status === 'Created') {
 
           var today = new Date();
           var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -317,7 +310,7 @@ export default {
           var data = {
             "request": 2,
             "id": this.selected[i].id,
-            "status_update": status,
+            "status_update": 'Assigned',
             "cr_date": date,
           }
           var email = this.selected[i].email
@@ -335,10 +328,10 @@ export default {
             console.log(error)
             this.failedRow += 1
           });
-          if(status === 'Assigned') {
-            axios.get('https://langaj.chronicstone.online/test-assessment/?email=' + this.selected[i].email + '&first_name=' + this.selected[i].first_name + '&secure_code=' + this.selected[i].secure_code)
-            .then(console.log('Mail sent to ' + this.selected[i].email))
-          }
+          axios.get('https://langaj.chronicstone.online/send-email/?email=' + this.selected[i].email + '&first_name=' + this.selected[i].first_name + '&secure_code=' + this.selected[i].secure_code)
+          .then(response => {
+            console.log(response.data)
+          })
         }
         else {
           toRemoveArray.push(i - 1)
