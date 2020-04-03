@@ -172,8 +172,9 @@
 
 import axios from "axios";
 import VxBreadcrumb from "@/layouts/components/VxBreadcrumb";
-import vSelect from 'vue-select'
-import Vue2Filters from 'vue2-filters'
+import vSelect from 'vue-select';
+import Vue2Filters from 'vue2-filters';
+import emailjs from 'emailjs-com';
 
 
 export default {
@@ -312,11 +313,15 @@ export default {
             "status_update": 'Assigned',
             "cr_date": date,
           }
+          var email = this.selected[i].email
+          var fname = this.selected[i].first_name
+          var secure_code = this.selected[i].secure_code
           axios.post(url, data, headers)
               .then(response => {
                 this.successRow +=1 
                 this.ReloadAPIData()
                 toRemoveArray.push(i - 1)
+                this.MailAssignTest(email, fname, secure_code)
                 //this.selected.splice(i - indexLocalizer, 1)
               })
               .catch(error => {this.failedRow += 1});
@@ -334,6 +339,28 @@ export default {
         .get('https://langaj.chronicstone.online/test-assessment/get/index.php?session_id=' + this.$session.get('session_id'))
         .then(response => (this.testQueries = response.data.data))
     },
+    MailAssignTest(email, fname, secure_code) {
+      var templateParams = {
+          "candidate_email": email,
+          "candidate_fname": fname,
+          "secure_code": secure_code,
+      };
+      var service_id = "default_service";
+      var template_id = "assign_test";
+      var user_id = "user_g6iQmMyQ1Tl2VcSdVzJPY"
+      emailjs.send(service_id , template_id, templateParams, user_id)
+          .then((response) => {
+          console.log('SUCCESS!', response.status, response.text);
+          this.$vs.notify({
+                          title:'Success',
+                          text:response.status + ' : ' + response.text,
+                          color:'success'
+                      })
+          }, 
+          (err) => {
+          console.log('FAILED...', err);
+      });
+    }
   }
 }
 </script>

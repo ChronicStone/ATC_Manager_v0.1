@@ -4,7 +4,6 @@
         <span class="mr-4"><b>Test center Name</b> </span>
         <span class="text-primary"><i>{{atcDAta.ATC_name}}</i></span>
       </div>
-      <!--<vs-button @click.prevent="Mail()">Send mail</vs-button>-->
     </vx-card>
 </template>
 

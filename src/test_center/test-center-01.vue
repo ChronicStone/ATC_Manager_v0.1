@@ -4,6 +4,8 @@
             <div class="w-1/8">            
                 <vue-tel-input class="mb-8 w-1/6" v-model="value" wrapperClasses="rounded"></vue-tel-input>
             </div>
+            <vs-button @click.prevent="MailAssignTest()">Send mail</vs-button>
+
         </vx-card>
 
      <vue-html2pdf
@@ -28,8 +30,10 @@
    </div>
 </template>
 <script>
-import VueHtml2pdf from 'vue-html2pdf'
- 
+import VueHtml2pdf from 'vue-html2pdf';
+import axios from "axios";
+import emailjs from 'emailjs-com';
+
 export default {
     methods: {
         /*
@@ -38,6 +42,28 @@ export default {
         */
         generateReport () {
             this.$refs.html2Pdf.generatePdf()
+        },
+        MailAssignTest(email, fname, secure_code) {
+            var templateParams = {
+                "candidate_email": email,
+                "candidate_fname": fname,
+                "secure_code": secure_code,
+            };
+            var service_id = "default_service";
+            var template_id = "assign_test";
+            var user_id = "user_g6iQmMyQ1Tl2VcSdVzJPY"
+            emailjs.send(service_id , template_id, templateParams, user_id)
+                .then((response) => {
+                console.log('SUCCESS!', response.status, response.text);
+                this.$vs.notify({
+                                title:'Success',
+                                text:response.status + ' : ' + response.text,
+                                color:'success'
+                            })
+                }, 
+                (err) => {
+                console.log('FAILED...', err);
+            });
         }
     },
  
